@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Maps Skills CLI skill ids to legacy agent-skills/ paths used by geobase-cli skills and AGENTS.md.",
+  "repository": "decision-labs/geobase-skills",
+  "skills": [
+    {
+      "id": "geobase",
+      "agent_skills_path": "skills.md"
+    },
+    {
+      "id": "geobase-embeddings",
+      "agent_skills_path": "embeddings/README.md"
+    },
+    {
+      "id": "geobase-embeddings-management",
+      "agent_skills_path": "embeddings.md"
+    },
+    {
+      "id": "geobase-embeddings-create-via-workers",
+      "agent_skills_path": "embeddings/create-via-workers.md"
+    },
+    {
+      "id": "geobase-embeddings-catalogue-management",
+      "agent_skills_path": "embeddings/catalogue-management.md"
+    },
+    {
+      "id": "geobase-embeddings-rpc-applications",
+      "agent_skills_path": "embeddings/rpc-applications.md"
+    },
+    {
+      "id": "geobase-embeddings-troubleshooting",
+      "agent_skills_path": "embeddings/troubleshooting.md"
+    },
+    {
+      "id": "geobase-tileserver",
+      "agent_skills_path": "tileserver.md"
+    },
+    {
+      "id": "geobase-worker-srai-embeddings",
+      "agent_skills_path": "worker/srai_embeddings.md"
+    },
+    {
+      "id": "geobase-worker-geoai-embeddings",
+      "agent_skills_path": "worker/geoai_embeddings.md"
+    },
+    {
+      "id": "geobase-worker-osm-import",
+      "agent_skills_path": "worker/osm_import.md"
+    },
+    {
+      "id": "geobase-project-db-data-import",
+      "agent_skills_path": "project-db/data_import.md"
+    }
+  ]
+}
