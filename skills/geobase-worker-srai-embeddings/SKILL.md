@@ -3,16 +3,20 @@ name: geobase-worker-srai-embeddings
 description: "Use when creating and validating SRAI embeddings worker jobs (`createSraiEmbeddings`) for a Geobase project."
 metadata:
   author: geobase
-  version: "0.1.0"
+  version: "0.1.1"
 ---
 
 # Worker: SRAI Embeddings
+
+## Secrets (human in the loop)
+
+Worker HTTP calls need **`GEOBASE_SERVICE_ROLE_KEY`**. The CLI and agents cannot obtain it. **Ask the user** to put the real key in a gitignored **`.env.secrets`** before any worker API step. Do not paste the key in chat. See `@geobase` → **Secrets (human in the loop)**.
 
 ## Required Inputs
 
 - authenticated CLI session (`geobase-cli login`)
 - `project_ref`
-- worker and project keys from persona env
+- `GEOBASE_SERVICE_ROLE_KEY` from user-provided `.env.secrets` (not from chat or CLI placeholders)
 - payload JSON with:
   - `tableName`
   - `pipeline` object
@@ -23,9 +27,10 @@ metadata:
 1. Validate session and project:
    - `geobase-cli whoami`
    - `geobase-cli projects refs`
-2. Bootstrap env and required keys:
-   - `geobase-cli projects env <project-ref> --persona postgres --format dotenv`
-   - ensure these are available: `GEOBASE_PROJECT_REF`, `GEOBASE_SERVICE_ROLE_KEY`, `GEOBASE_API_URI`
+2. Bootstrap non-secret env, then load secrets from disk:
+   - `geobase-cli projects env <project-ref> --persona web --format dotenv` → `GEOBASE_PROJECT_REF`, `GEOBASE_API_URI`, anon key, etc.
+   - user must provide **`GEOBASE_SERVICE_ROLE_KEY`** in **`.env.secrets`** (human in the loop)
+   - `set -a && source .env.secrets && set +a` (user runs locally; agent does not read secret values)
 3. Fetch canonical model registry JSON and validate selected SRAI model:
    - `https://gist.githubusercontent.com/mhassanch/5acd83c04618c83e29d118ac722bb805/raw/geobase_models_registry.json`
    - map payload SRAI model to registry `id` and ensure it is available.

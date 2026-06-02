@@ -27,6 +27,7 @@ Do not create embeddings tables through ad-hoc direct RPC flows. Use worker job 
 - authenticated CLI session
 - `project_ref`
 - job payload matching the selected worker task
+- **`GEOBASE_SERVICE_ROLE_KEY`** in user-provided **`.env.secrets`** for worker HTTP (human in the loop; see `@geobase`)
 
 ## Verification
 

@@ -3,7 +3,7 @@ name: geobase
 description: "Use for Geobase CLI workflows end-to-end: auth/session checks, project discovery, endpoint/env inspection, and worker job operations."
 metadata:
   author: geobase
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
 # Geobase
@@ -22,10 +22,6 @@ npx skills add decision-labs/geobase-skills@geobase -g -y
 
 Search for focused skills: `npx skills find geobase` (e.g. `@geobase-tileserver`, `@geobase-worker-srai-embeddings`).
 
-```bash
-geobase-cli skills --out agent-skills
-```
-
 ## Core Principles
 
 **1. Keep control-plane vs project scope clear.**
@@ -43,8 +39,8 @@ CLI surfaces evolve. Check command shape before execution.
 **5. Verify outcomes, not just command success.**
 Inspect returned fields, URLs, status values, and downstream effects.
 
-**6. Treat secrets as sensitive.**
-Never commit keys or expose privileged credentials in client/public contexts.
+**6. Secrets require a human in the loop.**
+`DATABASE_URI` / `GEOBASE_DATABASE_URI` and `SERVICE_ROLE_KEY` / `GEOBASE_SERVICE_ROLE_KEY` are **not** available to the CLI or to agents in a usable form. `projects env` may print placeholders (`[PASSWORD]`, `<db-password>`, `<service-role-key>`). **Stop and ask the user** to put real values in local gitignored files (for example `.env.db`, `.env.secrets`) before any step that needs DB access or privileged worker/API calls. Never guess, invent, or paste these values in chat.
 
 **7. Strict table-name verification before create operations.**
 Before any action that creates tables (worker jobs, imports, SQL), you must verify target names for both validity and collisions; never skip this check.
@@ -89,8 +85,7 @@ Before any model-based workflow (GeoAI/SRAI):
    - `geobase-cli projects env <project-ref> --persona web --format dotenv`
    - `geobase-cli projects env <project-ref> --persona postgres --format dotenv`
    - `geobase-cli projects env <project-ref> --persona datascience --format dotenv`
-   - ⚠️ The postgres persona always outputs `GEOBASE_PGPASSWORD=<db-password>` as a placeholder.
-     The CLI does not expose the real password. See `project-db/data_import.md` for the `.env` workflow.
+   - ⚠️ Postgres/datascience personas emit **placeholders** for DB password and URIs (`GEOBASE_PGPASSWORD=<db-password>`, `[PASSWORD]` in `DATABASE_URI` / `GEOBASE_DATABASE_URI`). The CLI does not expose usable `DATABASE_URI` or `SERVICE_ROLE_KEY` to agents — see **Secrets (human in the loop)** below and `@geobase-project-db-data-import`.
 5. Verify follow-up state using status/health and concrete output checks.
 
 ## Strict Table Verification (Create Operations)
@@ -139,9 +134,28 @@ For embeddings management workflows, use:
 - If `project_ref` is invalid: re-check with `geobase-cli projects refs`.
 - After 2-3 failed attempts, stop looping and switch to diagnosis (routing, auth scope, payload, service status).
 
+## Secrets (human in the loop)
+
+These values are **never** something an agent or `geobase-cli` can supply on its own. The user must provide them out of band.
+
+| Variable | What `projects env` gives you | What the user must do |
+| -------- | ------------------------------ | ---------------------- |
+| `DATABASE_URI` / `GEOBASE_DATABASE_URI` | Connection string with `[PASSWORD]` placeholder | Set real DB password; write a complete URI to **`.env.db`** (or equivalent), gitignored |
+| `SERVICE_ROLE_KEY` / `GEOBASE_SERVICE_ROLE_KEY` | Placeholder or value that must not flow through the agent | Copy from Studio / project settings into **`.env.secrets`** (or equivalent), gitignored |
+
+**Agent workflow**
+
+1. Run `geobase-cli projects env <ref> --persona …` only to collect **non-secret** host, ref, anon key, URLs, etc.
+2. **Stop** before `psql`, `ogr2ogr`, worker job HTTP calls, or any privileged API use.
+3. Ask the user to create `.env.db` and/or `.env.secrets` with real `DATABASE_URI` and `SERVICE_ROLE_KEY` (and related `GEOBASE_*` aliases if they prefer).
+4. User loads files locally (example: `set -a && source .env.secrets && source .env.db && set +a`). The agent must **not** ask the user to paste secret values into chat.
+5. Proceed only after the user confirms the files exist on disk.
+
+Add `.env.db`, `.env.secrets`, `.env.postgres.local`, and similar paths to `.gitignore` if not already present.
+
 ## Security Rules
 
-- Never paste service-role keys in chat.
-- Never commit secrets to repo files.
+- Never paste `SERVICE_ROLE_KEY`, DB passwords, or full `DATABASE_URI` values in chat.
+- Never commit secrets to repo files (including generated `projects env` output that was hand-filled).
 - Never expose privileged keys in public/client env vars (`NEXT_PUBLIC_*`, browser bundles, logs).
 - Keep project anon keys and service-role keys separated by intended usage.

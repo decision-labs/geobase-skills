@@ -3,7 +3,7 @@ name: geobase-embeddings-catalogue-management
 description: "Use for GeoEmbeddings table metadata management through the catalogue API: list, update visibility, delete, and count."
 metadata:
   author: geobase
-  version: "0.1.0"
+  version: "0.1.1"
 ---
 
 # Catalogue API (RUD Metadata Management)
@@ -17,7 +17,7 @@ Use the **Geobase project** PostgREST API (`geoembeddings` schema) to inspect an
 
 **Mutations** (PATCH visibility, delete table) require one of:
 
-- `GEOBASE_SERVICE_ROLE_KEY` — project service role; use server-side only as both `apikey` and `Authorization: Bearer`, or
+- `GEOBASE_SERVICE_ROLE_KEY` — project service role; use server-side only as both `apikey` and `Authorization: Bearer`. **Not available to agents or CLI** — user must put the real key in gitignored **`.env.secrets`** (human in the loop; never paste in chat). See `@geobase` → **Secrets (human in the loop)**. Or:
 - A **project user** access token — user signed into that project (GoTrue on `GEOBASE_PROJECT_URL`) whose id matches `owner` on the catalogue row for that table.
 
 **Reads** (list/get catalogue, count rows on tables you can access) work with `GEOBASE_ANON_KEY` plus optional project user JWT; RLS limits what each caller sees.
@@ -28,7 +28,7 @@ Resolve URL/key with:
 geobase-cli projects env <project-ref> --persona web --format dotenv
 ```
 
-**CLI gap:** there is no `geobase-cli` command yet to sign in as a **project user** and emit a project access token. Until that ships, use `GEOBASE_SERVICE_ROLE_KEY` server-side or obtain a project user JWT from your app/auth flow. Planned: Geobase CLI roadmap — project user access.
+**CLI gap:** there is no `geobase-cli` command yet to sign in as a **project user** and emit a project access token. Until that ships, load `GEOBASE_SERVICE_ROLE_KEY` from the user's **`.env.secrets`** for server-side mutations, or obtain a project user JWT from your app/auth flow. Planned: Geobase CLI roadmap — project user access.
 
 PostgREST base path: `${GEOBASE_PROJECT_URL}/rest/v1`.
 

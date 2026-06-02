@@ -3,7 +3,7 @@ name: geobase-project-db-data-import
 description: "Use when importing local user data files (GeoParquet, GeoJSON, GPKG, Shapefile, CSV, Parquet) into a Geobase project database."
 metadata:
   author: geobase
-  version: "0.1.0"
+  version: "0.1.1"
 ---
 
 # Project DB: Local Data Import
@@ -14,6 +14,18 @@ metadata:
 - `project_ref`
 - local file path (for example `.parquet`, `.geojson`, `.gpkg`, `.shp`, `.csv`)
 - target table name
+
+## Secrets (human in the loop)
+
+`DATABASE_URI` / `GEOBASE_DATABASE_URI` and the DB password are **not** available to agents or `geobase-cli` in usable form. `projects env --persona postgres` prints placeholders only.
+
+Before import:
+
+1. Run `geobase-cli projects env <project-ref> --persona postgres --format dotenv` for host, port, database, user (non-secret).
+2. **Ask the user** to create a gitignored **`.env.db`** with the real password and a complete `DATABASE_URI` / `GEOBASE_DATABASE_URI` (replace `[PASSWORD]` / `<db-password>`).
+3. User loads it locally; do **not** ask them to paste the password or URI in chat.
+
+See `@geobase` → **Secrets (human in the loop)**.
 
 ## Core Rule
 
@@ -26,11 +38,9 @@ For non-geospatial tabular files, use `COPY`/`\copy` or Python loaders.
    - `geobase-cli whoami`
    - `geobase-cli projects refs`
    - `geobase-cli projects env <project-ref> --persona postgres --format dotenv`
-2. Source DB connection values from the generated postgres persona env:
-   - use `GEOBASE_PGHOST`, `GEOBASE_PGPORT`, `GEOBASE_PGDATABASE`, `GEOBASE_PGUSER`, `GEOBASE_PGPASSWORD`
-   - if needed, replace placeholders in `GEOBASE_DATABASE_URI` / `DATABASE_URI`
-   - ⚠️ **`GEOBASE_PGPASSWORD` is always output as `<db-password>` — the CLI does not expose the real password.**
-     Ask the user to provide it and write it to a local `.env` file before proceeding. Never write the password to a tracked file.
+2. Source DB credentials from the user's **`.env.db`** (after they create it):
+   - non-secret fields may come from `projects env`: `GEOBASE_PGHOST`, `GEOBASE_PGPORT`, `GEOBASE_PGDATABASE`, `GEOBASE_PGUSER`
+   - password and `DATABASE_URI` / `GEOBASE_DATABASE_URI` must come from `.env.db` only — never from CLI output or chat
 3. Validate target table name:
    - keep it short;
    - use letters/digits/underscores only;

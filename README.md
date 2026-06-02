@@ -53,3 +53,4 @@ Edit skills in **this repository** only. The [Geobase monorepo](https://github.c
 
 - [`geobase-cli`](https://github.com/decision-labs/geobase/tree/main/cli/geobase-cli) for platform login and `projects env` / worker orchestration.
 - Do **not** commit platform or project secrets into skill files.
+- **`DATABASE_URI`** and **`SERVICE_ROLE_KEY`** are not available to the CLI or agents without a **human in the loop**. Users must place real values in local gitignored files (for example `.env.db`, `.env.secrets`). See the `@geobase` skill, section **Secrets (human in the loop)**.
