@@ -3,7 +3,7 @@ name: geobase-tileserver
 description: "Use when building frontend map visualisations with the Geobase vector tile server and MapLibre GL JS."
 metadata:
   author: geobase
-  version: "0.2.1"
+  version: "0.2.2"
 ---
 
 # Tileserver: Frontend Map Visualisation
@@ -102,7 +102,10 @@ For Geobase-specific tileserver configuration, filters, caching, and integration
 
 - Match scheme to data: **sequential** for ordered numbers, **diverging** for values around a meaningful midpoint, **qualitative** for categories (no natural order).
 - For numeric choropleths and `interpolate` ramps, use **color-blind safe** palettes only. Avoid red–green for magnitude or change; use blue–orange diverging when you need two sides.
-- Keep the map palette small (~10–12 hues); use a neutral basemap and let data layers carry contrast.
+- **Basemap:** prefer **Carto vector** GL styles (light: Voyager, dark: Dark Matter), then stack Geobase tileserver layers on top:
+  - `https://tiles.basemaps.cartocdn.com/gl/voyager-gl-style/style.json`
+  - `https://tiles.basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json`
+- Keep the map palette small (~10–12 hues); let data layers carry contrast over the basemap.
 - Do not rely on color alone — use line weight, opacity, outlines, or labels too.
 - Pick class breaks before colors; use `interpolate` / `step` with **`to-number`** on tile properties (see gotcha 1).
 - Simplify at low zoom (`minzoom`, fewer classes); use partial fill opacity when polygons overlap.
