@@ -14,7 +14,7 @@ npx skills add decision-labs/geobase-skills
 npx skills add git@github.com:decision-labs/geobase-skills.git
 ```
 
-Select **all** skills in the wizard, or use your CLI’s non-interactive flags (e.g. `-y`, `-g`).
+Select **all** skills in the wizard, or use non-interactive flags (e.g. `-y`, `-g`).
 
 ### Umbrella + search
 
@@ -35,7 +35,7 @@ npx skills find geobase
 
 ## Layout
 
-Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown), per the open Agent Skills format:
+Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown):
 
 ```
 skills/
@@ -45,19 +45,9 @@ skills/
   ...
 ```
 
-[`skills-manifest.json`](skills-manifest.json) maps skill ids to legacy paths used when running `geobase-cli skills --out agent-skills` in a customer repo.
-
 ## Source of truth
 
-Edit `skills/<id>/SKILL.md` in this repository.
-
-When developing in the [Geobase monorepo](https://github.com/decision-labs/geobase), the same tree lives at **`geobase-skills/`** at the repo root. `geobase-cli skills` reads from there and writes the legacy `agent-skills/` layout for customer `AGENTS.md` files.
-
-To publish changes:
-
-1. Push updates to `decision-labs/geobase-skills` (this repo).
-2. Tag a release if you version installs.
-3. Users run `npx skills update` (or re-add) to refresh.
+Edit skills in **this repository** only. The [Geobase monorepo](https://github.com/decision-labs/geobase) documents install via `npx skills` and links here — it does not vendor a duplicate copy.
 
 ## Requirements
 

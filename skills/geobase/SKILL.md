@@ -22,8 +22,6 @@ npx skills add decision-labs/geobase-skills@geobase -g -y
 
 Search for focused skills: `npx skills find geobase` (e.g. `@geobase-tileserver`, `@geobase-worker-srai-embeddings`).
 
-**Project-local copy** (matches `agent-skills/` layout for `AGENTS.md`):
-
 ```bash
 geobase-cli skills --out agent-skills
 ```
