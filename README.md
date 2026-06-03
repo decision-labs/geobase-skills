@@ -16,22 +16,38 @@ npx skills add git@github.com:decision-labs/geobase-skills.git
 
 Select **all** skills in the wizard, or use non-interactive flags (e.g. `-y`, `-g`).
 
-### Umbrella + search
+### Install one skill
 
-| Skill | Install |
-|-------|---------|
-| Geobase (umbrella) | `npx skills add decision-labs/geobase-skills@geobase` |
-| GeoEmbeddings index | `@geobase-embeddings` |
-| Embeddings management | `@geobase-embeddings-management` |
-| SRAI worker jobs | `@geobase-worker-srai-embeddings` |
-| GeoAI worker jobs | `@geobase-worker-geoai-embeddings` |
-| OSM import worker | `@geobase-worker-osm-import` |
-| Vector tiles / MapLibre | `@geobase-tileserver` |
-| Project DB import | `@geobase-project-db-data-import` |
+```bash
+npx skills add decision-labs/geobase-skills --skill geobase-tileserver --yes
+```
+
+Replace `geobase-tileserver` with any skill name from the [catalog](#skill-catalog) below.
+
+### Browse the catalog
 
 ```bash
 npx skills find geobase
 ```
+
+## Skill catalog
+
+| Area | Skill | Install |
+|------|-------|---------|
+| **Platform** | Geobase (umbrella) | `npx skills add decision-labs/geobase-skills@geobase` |
+| **GeoEmbeddings** | Index | `@geobase-embeddings` |
+| | Operations hierarchy | `@geobase-embeddings-management` |
+| | Create via workers | `@geobase-embeddings-create-via-workers` |
+| | Catalogue metadata (RUD) | `@geobase-embeddings-catalogue-management` |
+| | RPC applications | `@geobase-embeddings-rpc-applications` |
+| | Troubleshooting | `@geobase-embeddings-troubleshooting` |
+| **Workers** | SRAI embeddings | `@geobase-worker-srai-embeddings` |
+| | GeoAI embeddings | `@geobase-worker-geoai-embeddings` |
+| | OSM import | `@geobase-worker-osm-import` |
+| **Maps** | Vector tiles / MapLibre | `@geobase-tileserver` |
+| **Data** | Project DB import | `@geobase-project-db-data-import` |
+
+Skills cross-reference each other with `@skill-name` (for example `@geobase` → `@geobase-worker-srai-embeddings`).
 
 ## Layout
 
@@ -43,14 +59,19 @@ skills/
   geobase-tileserver/SKILL.md
   geobase-worker-srai-embeddings/SKILL.md
   ...
+plugin.json
 ```
 
 ## Source of truth
 
-Edit skills in **this repository** only. The [Geobase monorepo](https://github.com/decision-labs/geobase) documents install via `npx skills` and links here — it does not vendor a duplicate copy.
+Edit skills in **this repository** only. Install via `npx skills add decision-labs/geobase-skills`.
 
 ## Requirements
 
 - [`geobase-cli`](https://github.com/decision-labs/geobase/tree/main/cli/geobase-cli) for platform login and `projects env` / worker orchestration.
 - Do **not** commit platform or project secrets into skill files.
 - **`DATABASE_URI`** and **`SERVICE_ROLE_KEY`** are not available to the CLI or agents without a **human in the loop**. Users must place real values in local gitignored files (for example `.env.db`, `.env.secrets`). See the `@geobase` skill, section **Secrets (human in the loop)**.
+
+## License
+
+Apache License 2.0 — see [LICENSE](LICENSE).

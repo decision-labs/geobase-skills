@@ -17,19 +17,19 @@ Follow this hierarchy:
 See detailed skills:
 
 - 1) Create via workers:
-  - `embeddings/create-via-workers.md`
+  - `@geobase-embeddings-create-via-workers`
 - 2) Catalogue metadata management:
-  - `embeddings/catalogue-management.md`
+  - `@geobase-embeddings-catalogue-management`
 - 3) Applications RPC:
-  - `embeddings/rpc-applications.md`
+  - `@geobase-embeddings-rpc-applications`
 - Troubleshooting:
-  - `embeddings/troubleshooting.md`
+  - `@geobase-embeddings-troubleshooting`
 
 Cross-reference existing worker skills when payload-level details are needed:
 
-- `worker/geoai_embeddings.md`
-- `worker/srai_embeddings.md`
-- `worker/osm_import.md`
+- `@geobase-worker-geoai-embeddings`
+- `@geobase-worker-srai-embeddings`
+- `@geobase-worker-osm-import`
 
 ## Failure Handling
 

@@ -36,7 +36,7 @@ const geobase = createClient(process.env.GEOBASE_PROJECT_URL!, process.env.GEOBA
 
 ## Similarity Search (`similarity_search`)
 
-PostgREST picks the PostgreSQL overload from the **parameter names** you send. Optional parameters (`?`) share defaults listed under [Defaults and Behavior](#defaults-and-behavior). Authoritative full reference (including `change_detection`): [`API.geoembeddings.functions.redesign.md`](../../../../../geobase_services/geoembeddings_pure_sql/docs/API.geoembeddings.functions.redesign.md).
+PostgREST picks the PostgreSQL overload from the **parameter names** you send. Optional parameters (`?`) share defaults listed under [Defaults and Behavior](#defaults-and-behavior). The overload table below is the authoritative reference for agents using this skill (including `change_detection`). Public docs at [docs.geobase.app](https://docs.geobase.app/guides/geoembeddings/rpc-api) are planned; until then, use this skill.
 
 | Function Name | Parameters | Input Type | Label | Spatial Filter | Output |
 |--------------|------------|------------|-------|----------------|--------|

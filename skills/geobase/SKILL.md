@@ -101,32 +101,32 @@ For any workflow that creates tables, run this check first:
 
 ## GeoEmbeddings Management
 
-Use `embeddings.md` as the coordinator, then follow focused files:
+Use `@geobase-embeddings` as the index, then follow focused skills:
 
-- `embeddings/create-via-workers.md`
-- `embeddings/catalogue-management.md`
-- `embeddings/rpc-applications.md`
-- `embeddings/troubleshooting.md`
+- `@geobase-embeddings-create-via-workers`
+- `@geobase-embeddings-catalogue-management`
+- `@geobase-embeddings-rpc-applications`
+- `@geobase-embeddings-troubleshooting`
 
 ## Related Skills
 
 For worker job flows and troubleshooting, use:
 
-- `worker/osm_import.md`
-- `worker/geoai_embeddings.md`
-- `worker/srai_embeddings.md`
+- `@geobase-worker-osm-import`
+- `@geobase-worker-geoai-embeddings`
+- `@geobase-worker-srai-embeddings`
 
 For project database ingestion/import workflows, use:
 
-- `project-db/data_import.md`
+- `@geobase-project-db-data-import`
 
 For map tiles and map visualization workflows, use:
 
-- `tileserver.md`
+- `@geobase-tileserver`
 
 For embeddings management workflows, use:
 
-- `embeddings.md`
+- `@geobase-embeddings-management`
 
 ## Failure Handling
 
