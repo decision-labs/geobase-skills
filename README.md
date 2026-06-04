@@ -1,6 +1,6 @@
 # Geobase skills
 
-[![Smoke](https://github.com/decision-labs/geobase-skills/actions/workflows/smoke.yml/badge.svg)](https://github.com/decision-labs/geobase-skills/actions/workflows/smoke.yml)
+[![smoke](https://img.shields.io/github/actions/workflow/status/decision-labs/geobase-skills/smoke.yml?branch=main&label=smoke)](https://github.com/decision-labs/geobase-skills/actions/workflows/smoke.yml)
 
 Agent skills for [Geobase](https://geobase.app): GeoEmbeddings, worker jobs, tileserver, titiler, project database import, and (when it ships) platform CLI workflows.
 
