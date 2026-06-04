@@ -8,13 +8,28 @@ Compatible with the [Agent Skills CLI](https://github.com/vercel-labs/skills) (`
 
 ### All skills at once
 
+**Non-interactive (recommended)** — installs every skill under `skills/` without the picker:
+
+```bash
+# All skills → Cursor, project scope
+npx skills add decision-labs/geobase-skills --skill '*' -a cursor -y
+
+# All skills → Cursor, global (user-wide)
+npx skills add decision-labs/geobase-skills --skill '*' -a cursor -g -y
+
+# All skills → every supported agent
+npx skills add decision-labs/geobase-skills --all
+```
+
+`-y` alone only skips confirmations; use `--skill '*'` or `--all` to select every skill.
+
+**Interactive** — multi-select in the wizard:
+
 ```bash
 npx skills add decision-labs/geobase-skills
 # or
 npx skills add git@github.com:decision-labs/geobase-skills.git
 ```
-
-Select **all** skills in the wizard, or use non-interactive flags (e.g. `-y`, `-g`).
 
 ### Install one skill
 

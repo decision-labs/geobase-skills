@@ -13,10 +13,16 @@ metadata:
 Published as [decision-labs/geobase-skills](https://github.com/decision-labs/geobase-skills).
 
 ```bash
-# All Geobase skills (interactive: select all)
+# All Geobase skills (non-interactive)
+npx skills add decision-labs/geobase-skills --skill '*' -a cursor -y
+
+# All skills, global install
+npx skills add decision-labs/geobase-skills --skill '*' -a cursor -g -y
+
+# Interactive wizard (multi-select skills)
 npx skills add decision-labs/geobase-skills
 
-# Or install this umbrella skill only
+# Umbrella skill only
 npx skills add decision-labs/geobase-skills@geobase -g -y
 ```
 
