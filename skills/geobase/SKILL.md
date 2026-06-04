@@ -32,7 +32,7 @@ npx skills add decision-labs/geobase-skills@geobase -g -y
 npx skills add decision-labs/geobase-skills --list
 ```
 
-**Discovery:** Bundle on [skills.sh](https://skills.sh/decision-labs/geobase-skills) — no separate registration; listing comes from install telemetry. `npx skills find geobase` may return no results while install counts are low; use `--list` or the bundle URL. Focused skills: `@geobase-tileserver`, `@geobase-worker-srai-embeddings`, etc.
+**Discovery:** Bundle on [skills.sh](https://skills.sh/decision-labs/geobase-skills) — no separate registration; listing comes from install telemetry. `npx skills find geobase` may return no results while install counts are low; use `--list` or the bundle URL. Focused skills: `@geobase-tileserver`, `@geobase-titiler`, `@geobase-worker-srai-embeddings`, etc.
 
 ## Private beta (CLI not shipped)
 
@@ -156,7 +156,8 @@ For project database ingestion/import workflows, use:
 
 For map tiles and map visualization workflows, use:
 
-- `@geobase-tileserver`
+- `@geobase-tileserver` — vector MVT from PostGIS tables
+- `@geobase-titiler` — raster COG tiles (satellite, DEM, multispectral)
 
 For embeddings management workflows, use:
 

@@ -1,6 +1,6 @@
 # Geobase skills
 
-Agent skills for [Geobase](https://geobase.app): GeoEmbeddings, worker jobs, tileserver, project database import, and (when it ships) platform CLI workflows.
+Agent skills for [Geobase](https://geobase.app): GeoEmbeddings, worker jobs, tileserver, titiler, project database import, and (when it ships) platform CLI workflows.
 
 > **Private beta** — Geobase and this skills repo require beta access. `npx skills add decision-labs/geobase-skills` only works if your GitHub account can read the repository.
 >
@@ -73,6 +73,7 @@ Bundle page: **https://skills.sh/decision-labs/geobase-skills**
 | | GeoAI embeddings | `@geobase-worker-geoai-embeddings` |
 | | OSM import | `@geobase-worker-osm-import` |
 | **Maps** | Vector tiles / MapLibre | `@geobase-tileserver` |
+| | Raster COG / Titiler | `@geobase-titiler` |
 | **Data** | Project DB import | `@geobase-project-db-data-import` |
 
 Skills cross-reference each other with `@skill-name` (for example `@geobase` → `@geobase-worker-srai-embeddings`).
@@ -85,6 +86,7 @@ Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown):
 skills/
   geobase/SKILL.md
   geobase-tileserver/SKILL.md
+  geobase-titiler/SKILL.md
   geobase-worker-srai-embeddings/SKILL.md
   ...
 plugin.json
