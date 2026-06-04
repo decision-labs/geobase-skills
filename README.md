@@ -58,12 +58,6 @@ Bundle page: **https://skills.sh/decision-labs/geobase-skills**
 
 `npx skills find geobase` searches the public skills.sh search index only; low-install bundles may not appear yet. That is normal — use `--list` or the bundle URL above.
 
-### Install badge (optional)
-
-```markdown
-[![skills.sh](https://skills.sh/b/decision-labs/geobase-skills)](https://skills.sh/decision-labs/geobase-skills)
-```
-
 ## Skill catalog
 
 | Area | Skill | Install |
