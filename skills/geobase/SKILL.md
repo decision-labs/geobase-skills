@@ -10,7 +10,7 @@ metadata:
 
 ## Install (Skills CLI)
 
-Published as [decision-labs/geobase-skills](https://github.com/decision-labs/geobase-skills).
+Published as [decision-labs/geobase-skills](https://github.com/decision-labs/geobase-skills). **Private beta** — install requires GitHub access to that repository.
 
 ```bash
 # All Geobase skills (non-interactive)

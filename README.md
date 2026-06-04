@@ -2,6 +2,8 @@
 
 Agent skills for [Geobase](https://geobase.app): platform CLI workflows, GeoEmbeddings, worker jobs, tileserver, and project database import.
 
+> **Private beta** — Geobase and this skills repo require beta access. `npx skills add decision-labs/geobase-skills` only works if your GitHub account can read the repository.
+
 Compatible with the [Agent Skills CLI](https://github.com/vercel-labs/skills) (`npx skills`).
 
 ## Install
