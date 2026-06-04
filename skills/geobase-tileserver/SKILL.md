@@ -156,3 +156,7 @@ const transformRequest = (url, resourceType) => {
 - **Black / invisible features** — numeric property not cast to number (see gotcha 1), or wrong `source-layer` name (gotcha 2).
 - **No tiles loading** — check anon key, verify tile URL returns non-zero bytes at the correct `{z}/{x}/{y}`.
 - **Auth errors on tiles** — pass `apikey` as a query param, or use `transformRequest` to inject an `Authorization: Bearer` header for RLS-protected tables.
+
+## Related Skills
+
+- `@geobase-titiler` — raster COG overlays (Titiler at `/titiler/v1`), not vector MVT
