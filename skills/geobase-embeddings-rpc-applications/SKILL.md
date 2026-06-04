@@ -16,11 +16,13 @@ Use GeoEmbeddings RPC for embedding-native analysis after embeddings tables exis
 - `GEOBASE_ANON_KEY`
 - table name(s) and optional label/filter inputs for your overload
 
-Resolve URL/key with:
+Resolve URL/key from Studio / project settings during beta, or (when shipped):
 
 ```bash
 geobase-cli projects env <project-ref> --persona web --format dotenv
 ```
+
+See `@geobase` → **Private beta (CLI not shipped)**.
 
 ## Client Setup
 

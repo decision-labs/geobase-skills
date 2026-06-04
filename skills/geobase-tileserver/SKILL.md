@@ -14,11 +14,13 @@ metadata:
 - `NEXT_PUBLIC_GEOBASE_ANON_KEY` — project anon key
 - target table name that has a geometry column (auto-detected by tileserver)
 
-Obtain both from:
+Obtain both from Geobase Studio / project settings during beta, or (when shipped) from:
 
 ```bash
 geobase-cli projects env <project-ref> --persona web --format dotenv
 ```
+
+See `@geobase` → **Private beta (CLI not shipped)**.
 
 ## Tile URL Pattern
 

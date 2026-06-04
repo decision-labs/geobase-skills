@@ -14,7 +14,8 @@ Worker HTTP calls need **`GEOBASE_SERVICE_ROLE_KEY`**. The CLI and agents cannot
 
 ## Required Inputs
 
-- authenticated CLI session (`geobase-cli login`)
+- `@geobase` → **Private beta (CLI not shipped)** if `geobase-cli` is unavailable
+- authenticated CLI session (`geobase-cli login`) when CLI is installed
 - `project_ref`
 - `GEOBASE_SERVICE_ROLE_KEY` from user-provided `.env.secrets` (not from chat or CLI placeholders)
 - payload JSON with:

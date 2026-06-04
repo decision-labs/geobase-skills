@@ -1,6 +1,9 @@
 ---
 name: geobase
-description: "Use for Geobase CLI workflows end-to-end: auth/session checks, project discovery, endpoint/env inspection, and worker job operations."
+description: >
+  Use for Geobase platform and project workflows: Studio/env setup during private
+  beta, and geobase-cli (when shipped) for auth, project discovery, endpoints, and
+  worker orchestration.
 metadata:
   author: geobase
   version: "0.2.1"
@@ -10,7 +13,7 @@ metadata:
 
 ## Install (Skills CLI)
 
-Published as [decision-labs/geobase-skills](https://github.com/decision-labs/geobase-skills).
+Published as [decision-labs/geobase-skills](https://github.com/decision-labs/geobase-skills). **Private beta** — skills repo and `geobase-cli` install require beta access; CLI not shipped yet.
 
 ```bash
 # All Geobase skills (non-interactive)
@@ -28,16 +31,32 @@ npx skills add decision-labs/geobase-skills@geobase -g -y
 
 Search for focused skills: `npx skills find geobase` (e.g. `@geobase-tileserver`, `@geobase-worker-srai-embeddings`).
 
+## Private beta (CLI not shipped)
+
+**`geobase-cli` is not publicly available during private beta.** Do not tell users to install it or assume it is on `PATH`.
+
+**Use this workflow until the CLI ships:**
+
+1. Ask the user for their **project ref** and confirm they can open the project in **Geobase Studio**.
+2. Collect **non-secret** project connection values from Studio / project settings (not from chat secrets):
+   - `GEOBASE_PROJECT_URL` (or project API base URL, e.g. `https://<ref>.geobase.app`)
+   - `GEOBASE_ANON_KEY`
+   - `GEOBASE_PROJECT_REF` (or equivalent ref used in worker URLs)
+3. For worker jobs, DB import, or catalogue mutations: follow **Secrets (human in the loop)** — user supplies `.env.secrets` / `.env.db` locally; never request pasted keys in chat.
+4. Run worker HTTP, PostgREST/RPC, tileserver, and `ogr2ogr` steps using those env vars directly.
+
+Sections below that reference `geobase-cli` describe the **target** workflow once the CLI is released. Prefer the beta steps above when the CLI is missing or fails with “command not found”.
+
 ## Core Principles
 
 **1. Keep control-plane vs project scope clear.**
 `login`, `whoami`, and `projects list/refs` are control-plane operations. Worker/data operations are project-scope operations.
 
-**2. Verify session first.**
-Run `geobase-cli whoami` before project or worker operations.
+**2. Verify session first (when CLI is available).**
+Run `geobase-cli whoami` before project or worker operations. During beta without CLI, confirm project access via Studio and explicit `project_ref` from the user.
 
 **3. Resolve the project ref explicitly.**
-Use `geobase-cli projects refs` or `projects list`; never guess.
+Use `geobase-cli projects refs` or `projects list` when the CLI is installed; otherwise take `project_ref` from the user / Studio; never guess.
 
 **4. Discover commands with `--help`; do not guess.**
 CLI surfaces evolve. Check command shape before execution.
@@ -53,8 +72,9 @@ Before any action that creates tables (worker jobs, imports, SQL), you must veri
 
 ## Required Inputs
 
-- authenticated CLI session (`geobase-cli login`)
 - `project_ref` (for project-scoped actions)
+- **Beta:** `GEOBASE_PROJECT_URL`, `GEOBASE_ANON_KEY`, and secrets in user-local `.env.*` files (see **Private beta** and **Secrets**)
+- **When CLI ships:** authenticated CLI session (`geobase-cli login`)
 
 ## Command Discovery
 
@@ -80,18 +100,23 @@ Before any model-based workflow (GeoAI/SRAI):
 
 ## Standard Workflow (All Geobase tasks)
 
-1. Validate auth/session:
-   - `geobase-cli whoami`
-2. Resolve target project:
-   - `geobase-cli projects refs`
-   - `geobase-cli projects list`
-3. Inspect project services:
-   - `geobase-cli projects endpoints <project-ref>`
+### Private beta (no CLI)
+
+1. Confirm `project_ref` and Studio access with the user.
+2. Use Studio / project settings for `GEOBASE_PROJECT_URL`, `GEOBASE_ANON_KEY`, and service URLs.
+3. Load secrets from user-local `.env.secrets` / `.env.db` after **Secrets (human in the loop)** — do not use chat for passwords or service-role keys.
+4. Verify outcomes on the project (worker job status, RPC responses, tile URLs, import row counts).
+
+### When `geobase-cli` is available
+
+1. Validate auth/session: `geobase-cli whoami`
+2. Resolve target project: `geobase-cli projects refs` / `projects list`
+3. Inspect project services: `geobase-cli projects endpoints <project-ref>`
 4. Generate environment templates when needed:
    - `geobase-cli projects env <project-ref> --persona web --format dotenv`
    - `geobase-cli projects env <project-ref> --persona postgres --format dotenv`
    - `geobase-cli projects env <project-ref> --persona datascience --format dotenv`
-   - ⚠️ Postgres/datascience personas emit **placeholders** for DB password and URIs (`GEOBASE_PGPASSWORD=<db-password>`, `[PASSWORD]` in `DATABASE_URI` / `GEOBASE_DATABASE_URI`). The CLI does not expose usable `DATABASE_URI` or `SERVICE_ROLE_KEY` to agents — see **Secrets (human in the loop)** below and `@geobase-project-db-data-import`.
+   - ⚠️ Postgres/datascience personas emit **placeholders** for DB password and URIs. Usable `DATABASE_URI` and `SERVICE_ROLE_KEY` still require **Secrets (human in the loop)** and `@geobase-project-db-data-import`.
 5. Verify follow-up state using status/health and concrete output checks.
 
 ## Strict Table Verification (Create Operations)
@@ -136,22 +161,23 @@ For embeddings management workflows, use:
 
 ## Failure Handling
 
-- If auth fails: run `geobase-cli login`, then retry.
-- If `project_ref` is invalid: re-check with `geobase-cli projects refs`.
+- If `geobase-cli` is not installed: use **Private beta (CLI not shipped)**; do not ask the user to clone a private monorepo for the CLI.
+- If auth fails (CLI available): run `geobase-cli login`, then retry.
+- If `project_ref` is invalid: re-check with the user or `geobase-cli projects refs` when available.
 - After 2-3 failed attempts, stop looping and switch to diagnosis (routing, auth scope, payload, service status).
 
 ## Secrets (human in the loop)
 
 These values are **never** something an agent or `geobase-cli` can supply on its own. The user must provide them out of band.
 
-| Variable | What `projects env` gives you | What the user must do |
-| -------- | ------------------------------ | ---------------------- |
-| `DATABASE_URI` / `GEOBASE_DATABASE_URI` | Connection string with `[PASSWORD]` placeholder | Set real DB password; write a complete URI to **`.env.db`** (or equivalent), gitignored |
-| `SERVICE_ROLE_KEY` / `GEOBASE_SERVICE_ROLE_KEY` | Placeholder or value that must not flow through the agent | Copy from Studio / project settings into **`.env.secrets`** (or equivalent), gitignored |
+| Variable | Beta / CLI template | What the user must do |
+| -------- | ------------------- | ---------------------- |
+| `DATABASE_URI` / `GEOBASE_DATABASE_URI` | Studio or CLI may show `[PASSWORD]` placeholders only | Set real DB password; write a complete URI to **`.env.db`** (or equivalent), gitignored |
+| `SERVICE_ROLE_KEY` / `GEOBASE_SERVICE_ROLE_KEY` | Not available to agents via CLI during beta | Copy from Studio / project settings into **`.env.secrets`** (or equivalent), gitignored |
 
 **Agent workflow**
 
-1. Run `geobase-cli projects env <ref> --persona …` only to collect **non-secret** host, ref, anon key, URLs, etc.
+1. Collect **non-secret** host, ref, anon key, URLs from Studio / project settings, or (when shipped) `geobase-cli projects env <ref> --persona …`.
 2. **Stop** before `psql`, `ogr2ogr`, worker job HTTP calls, or any privileged API use.
 3. Ask the user to create `.env.db` and/or `.env.secrets` with real `DATABASE_URI` and `SERVICE_ROLE_KEY` (and related `GEOBASE_*` aliases if they prefer).
 4. User loads files locally (example: `set -a && source .env.secrets && source .env.db && set +a`). The agent must **not** ask the user to paste secret values into chat.

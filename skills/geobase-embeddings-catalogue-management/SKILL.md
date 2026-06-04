@@ -22,11 +22,13 @@ Use the **Geobase project** PostgREST API (`geoembeddings` schema) to inspect an
 
 **Reads** (list/get catalogue, count rows on tables you can access) work with `GEOBASE_ANON_KEY` plus optional project user JWT; RLS limits what each caller sees.
 
-Resolve URL/key with:
+Resolve URL/key from Studio / project settings during beta, or (when shipped):
 
 ```bash
 geobase-cli projects env <project-ref> --persona web --format dotenv
 ```
+
+See `@geobase` → **Private beta (CLI not shipped)**.
 
 **CLI gap:** there is no `geobase-cli` command yet to sign in as a **project user** and emit a project access token. Until that ships, load `GEOBASE_SERVICE_ROLE_KEY` from the user's **`.env.secrets`** for server-side mutations, or obtain a project user JWT from your app/auth flow. Planned: Geobase CLI roadmap — project user access.
 

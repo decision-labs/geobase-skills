@@ -1,6 +1,10 @@
 # Geobase skills
 
-Agent skills for [Geobase](https://geobase.app): platform CLI workflows, GeoEmbeddings, worker jobs, tileserver, and project database import.
+Agent skills for [Geobase](https://geobase.app): GeoEmbeddings, worker jobs, tileserver, project database import, and (when it ships) platform CLI workflows.
+
+> **Private beta** — Geobase and this skills repo require beta access. `npx skills add decision-labs/geobase-skills` only works if your GitHub account can read the repository.
+>
+> **`geobase-cli` is not shipped yet.** Skills document the intended CLI workflow for later; during beta, use **Geobase Studio** for project URL, ref, and anon key (`@geobase` → **Private beta (CLI not shipped)**).
 
 Compatible with the [Agent Skills CLI](https://github.com/vercel-labs/skills) (`npx skills`).
 
@@ -83,9 +87,10 @@ Edit skills in **this repository** only. Install via `npx skills add decision-la
 
 ## Requirements
 
-- [`geobase-cli`](https://github.com/decision-labs/geobase/tree/main/cli/geobase-cli) for platform login and `projects env` / worker orchestration.
+- **Beta:** Geobase Studio access and a **Geobase project** (URL, ref, anon key from project settings). No public `geobase-cli` install yet.
+- **Later:** `geobase-cli` for platform login and `projects env` (documented in skills; not required during private beta).
 - Do **not** commit platform or project secrets into skill files.
-- **`DATABASE_URI`** and **`SERVICE_ROLE_KEY`** are not available to the CLI or agents without a **human in the loop**. Users must place real values in local gitignored files (for example `.env.db`, `.env.secrets`). See the `@geobase` skill, section **Secrets (human in the loop)**.
+- **`DATABASE_URI`** and **`SERVICE_ROLE_KEY`** are not available to agents without a **human in the loop**. Users must place real values in local gitignored files (for example `.env.db`, `.env.secrets`). See `@geobase` → **Secrets (human in the loop)**.
 
 ## Smoke tests
 

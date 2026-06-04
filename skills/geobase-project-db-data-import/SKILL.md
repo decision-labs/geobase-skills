@@ -10,7 +10,8 @@ metadata:
 
 ## Required Inputs
 
-- authenticated CLI session (`geobase-cli login`)
+- `@geobase` → **Private beta (CLI not shipped)** if `geobase-cli` is unavailable
+- authenticated CLI session (`geobase-cli login`) when CLI is installed
 - `project_ref`
 - local file path (for example `.parquet`, `.geojson`, `.gpkg`, `.shp`, `.csv`)
 - target table name
