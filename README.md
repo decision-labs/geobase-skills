@@ -43,10 +43,25 @@ npx skills add decision-labs/geobase-skills --skill geobase-tileserver --yes
 
 Replace `geobase-tileserver` with any skill name from the [catalog](#skill-catalog) below.
 
-### Browse the catalog
+### Discover skills (no separate registration)
+
+Skills appear on [skills.sh](https://skills.sh/decision-labs/geobase-skills) after people run `npx skills add` (install telemetry). There is **no** extra signup for the Vercel skills ecosystem.
+
+**Use these during private beta** — `npx skills find` often returns nothing until install counts grow:
 
 ```bash
-npx skills find geobase
+# List all skills in this repo (most reliable)
+npx skills add decision-labs/geobase-skills --list
+```
+
+Bundle page: **https://skills.sh/decision-labs/geobase-skills**
+
+`npx skills find geobase` searches the public skills.sh search index only; low-install bundles may not appear yet. That is normal — use `--list` or the bundle URL above.
+
+### Install badge (optional)
+
+```markdown
+[![skills.sh](https://skills.sh/b/decision-labs/geobase-skills)](https://skills.sh/decision-labs/geobase-skills)
 ```
 
 ## Skill catalog

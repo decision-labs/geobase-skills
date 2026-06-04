@@ -27,9 +27,12 @@ npx skills add decision-labs/geobase-skills
 
 # Umbrella skill only
 npx skills add decision-labs/geobase-skills@geobase -g -y
+
+# List every skill in the repo (preferred over search during beta)
+npx skills add decision-labs/geobase-skills --list
 ```
 
-Search for focused skills: `npx skills find geobase` (e.g. `@geobase-tileserver`, `@geobase-worker-srai-embeddings`).
+**Discovery:** Bundle on [skills.sh](https://skills.sh/decision-labs/geobase-skills) — no separate registration; listing comes from install telemetry. `npx skills find geobase` may return no results while install counts are low; use `--list` or the bundle URL. Focused skills: `@geobase-tileserver`, `@geobase-worker-srai-embeddings`, etc.
 
 ## Private beta (CLI not shipped)
 
