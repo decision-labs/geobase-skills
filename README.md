@@ -1,5 +1,7 @@
 # Geobase skills
 
+[![Smoke](https://github.com/decision-labs/geobase-skills/actions/workflows/Smoke/badge.svg)](https://github.com/decision-labs/geobase-skills/actions/workflows/smoke.yml)
+
 Agent skills for [Geobase](https://geobase.app): GeoEmbeddings, worker jobs, tileserver, titiler, project database import, and (when it ships) platform CLI workflows.
 
 > **Private beta** — Geobase and this skills repo require beta access. `npx skills add decision-labs/geobase-skills` only works if your GitHub account can read the repository.
