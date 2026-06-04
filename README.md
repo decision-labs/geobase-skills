@@ -72,6 +72,14 @@ Edit skills in **this repository** only. Install via `npx skills add decision-la
 - Do **not** commit platform or project secrets into skill files.
 - **`DATABASE_URI`** and **`SERVICE_ROLE_KEY`** are not available to the CLI or agents without a **human in the loop**. Users must place real values in local gitignored files (for example `.env.db`, `.env.secrets`). See the `@geobase` skill, section **Secrets (human in the loop)**.
 
+## Smoke tests
+
+```bash
+bash scripts/smoke-test.sh
+```
+
+Checks: valid `plugin.json`, [agentskills `skills-ref`](https://github.com/agentskills/agentskills/tree/main/skills-ref) validation for every skill, frontmatter `name` matches directory, no legacy `.md` cross-links or private monorepo paths, and `@geobase-*` references resolve to installed skills. CI runs the same script on pull requests (`.github/workflows/smoke.yml`).
+
 ## License
 
 Apache License 2.0 — see [LICENSE](LICENSE).
