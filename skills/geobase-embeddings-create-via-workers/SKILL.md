@@ -18,9 +18,9 @@ Do not create embeddings tables through ad-hoc direct RPC flows. Use worker job 
 
 ## Task-specific guides
 
-- `worker/geoai_embeddings.md`
-- `worker/srai_embeddings.md`
-- `worker/osm_import.md` *(context only; OSM import is not itself an embeddings creation flow, but can be an upstream data-prep/input step for embeddings workflows).*
+- `@geobase-worker-geoai-embeddings`
+- `@geobase-worker-srai-embeddings`
+- `@geobase-worker-osm-import` *(context only; OSM import is not itself an embeddings creation flow, but can be an upstream data-prep/input step for embeddings workflows).*
 
 ## Required inputs
 

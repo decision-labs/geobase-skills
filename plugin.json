@@ -1,0 +1,10 @@
+{
+  "name": "geobase",
+  "version": "0.1.0",
+  "description": "Agent skills for Geobase: CLI workflows, GeoEmbeddings, worker jobs, tileserver, and project database import.",
+  "author": {
+    "name": "Decision Labs"
+  },
+  "repository": "https://github.com/decision-labs/geobase-skills",
+  "license": "Apache-2.0"
+}

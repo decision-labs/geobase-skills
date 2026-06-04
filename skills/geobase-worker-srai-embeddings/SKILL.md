@@ -38,7 +38,7 @@ Worker HTTP calls need **`GEOBASE_SERVICE_ROLE_KEY`**. The CLI and agents cannot
    - table name rule (canonical): `^[a-z][a-z0-9_]{0,62}$`
    - ensure `pipeline` exists and is an object.
    - strict check (required): verify target table does not already exist before submit.
-     - use `embeddings/catalogue-management.md` to list embedding tables (catalogue) before submit.
+     - use `@geobase-embeddings-catalogue-management` to list embedding tables (catalogue) before submit.
 5. Check worker capacity first:
    - call `GET https://${GEOBASE_PROJECT_REF}.geobase.app/worker/capacity` with:
      - header: `apikey: ${GEOBASE_SERVICE_ROLE_KEY}`

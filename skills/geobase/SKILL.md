@@ -13,10 +13,16 @@ metadata:
 Published as [decision-labs/geobase-skills](https://github.com/decision-labs/geobase-skills).
 
 ```bash
-# All Geobase skills (interactive: select all)
+# All Geobase skills (non-interactive)
+npx skills add decision-labs/geobase-skills --skill '*' -a cursor -y
+
+# All skills, global install
+npx skills add decision-labs/geobase-skills --skill '*' -a cursor -g -y
+
+# Interactive wizard (multi-select skills)
 npx skills add decision-labs/geobase-skills
 
-# Or install this umbrella skill only
+# Umbrella skill only
 npx skills add decision-labs/geobase-skills@geobase -g -y
 ```
 
@@ -101,32 +107,32 @@ For any workflow that creates tables, run this check first:
 
 ## GeoEmbeddings Management
 
-Use `embeddings.md` as the coordinator, then follow focused files:
+Use `@geobase-embeddings` as the index, then follow focused skills:
 
-- `embeddings/create-via-workers.md`
-- `embeddings/catalogue-management.md`
-- `embeddings/rpc-applications.md`
-- `embeddings/troubleshooting.md`
+- `@geobase-embeddings-create-via-workers`
+- `@geobase-embeddings-catalogue-management`
+- `@geobase-embeddings-rpc-applications`
+- `@geobase-embeddings-troubleshooting`
 
 ## Related Skills
 
 For worker job flows and troubleshooting, use:
 
-- `worker/osm_import.md`
-- `worker/geoai_embeddings.md`
-- `worker/srai_embeddings.md`
+- `@geobase-worker-osm-import`
+- `@geobase-worker-geoai-embeddings`
+- `@geobase-worker-srai-embeddings`
 
 For project database ingestion/import workflows, use:
 
-- `project-db/data_import.md`
+- `@geobase-project-db-data-import`
 
 For map tiles and map visualization workflows, use:
 
-- `tileserver.md`
+- `@geobase-tileserver`
 
 For embeddings management workflows, use:
 
-- `embeddings.md`
+- `@geobase-embeddings-management`
 
 ## Failure Handling
 

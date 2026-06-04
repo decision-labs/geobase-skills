@@ -11,10 +11,10 @@ metadata:
 Use this hierarchy:
 
 1. Create embeddings only via workers:
-   - `embeddings/create-via-workers.md`
+   - `@geobase-embeddings-create-via-workers`
 2. Manage metadata via catalogue API (RUD):
-   - `embeddings/catalogue-management.md`
+   - `@geobase-embeddings-catalogue-management`
 3. Build applications with RPC APIs:
-   - `embeddings/rpc-applications.md`
+   - `@geobase-embeddings-rpc-applications`
 4. Troubleshooting:
-   - `embeddings/troubleshooting.md`
+   - `@geobase-embeddings-troubleshooting`
