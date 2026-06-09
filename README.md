@@ -80,17 +80,21 @@ Bundle page: **https://skills.sh/decision-labs/geobase-skills**
 
 Skills cross-reference each other with `@skill-name` (for example `@geobase` → `@geobase-worker-srai-embeddings`).
 
+Authoritative catalog (layers, dependencies, routing descriptions): [`skills/catalog.json`](skills/catalog.json). See [ARCHITECTURE.md](ARCHITECTURE.md) and [docs/skill-authoring.md](docs/skill-authoring.md).
+
 ## Layout
 
 Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown):
 
 ```
 skills/
+  catalog.json
   geobase/SKILL.md
   geobase-tileserver/SKILL.md
   geobase-titiler/SKILL.md
-  geobase-worker-srai-embeddings/SKILL.md
   ...
+ARCHITECTURE.md
+docs/skill-authoring.md
 plugin.json
 ```
 

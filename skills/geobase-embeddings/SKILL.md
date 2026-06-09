@@ -1,12 +1,18 @@
 ---
 name: geobase-embeddings
-description: "GeoEmbeddings index. Route tasks by hierarchy: worker-based creation, catalogue metadata management, then application RPC usage."
+description: "GeoEmbeddings index — route embedding tasks by hierarchy: worker creation, catalogue metadata (RUD), application RPC, troubleshooting. Triggers on geoembeddings, embeddings table, similarity search entry point."
 metadata:
   author: geobase
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # GeoEmbeddings Skills Index
+
+## When to use this skill
+
+- User asks about GeoEmbeddings but the task type is unclear
+- Need the correct order: create tables → catalogue → RPC apps
+- Routing before loading a worker or RPC skill
 
 Use this hierarchy:
 

@@ -1,12 +1,18 @@
 ---
 name: geobase-embeddings-create-via-workers
-description: "Use when creating GeoEmbeddings tables. Enforces worker-first creation flow and links to task-specific worker skills."
+description: "Create GeoEmbeddings tables only through worker jobs (never ad-hoc RPC). Triggers on create embeddings, new embeddings table, SRAI/GeoAI pipeline before tables exist."
 metadata:
   author: geobase
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Create Embeddings via Workers
+
+## When to use this skill
+
+- User wants a new embeddings table or pipeline output in `geoembeddings` schema
+- Before `@geobase-worker-srai-embeddings` or `@geobase-worker-geoai-embeddings`
+- Prevent direct SQL/RPC table creation shortcuts
 
 Do not create embeddings tables through ad-hoc direct RPC flows. Use worker job APIs.
 

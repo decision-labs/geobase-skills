@@ -10,6 +10,40 @@ SKILLS_REF=(uvx --from 'git+https://github.com/agentskills/agentskills#subdirect
 echo "==> Validate plugin.json"
 python3 -c "import json; json.load(open('plugin.json'))"
 
+echo "==> Validate skills/catalog.json"
+python3 <<'PY'
+import json
+import pathlib
+import sys
+
+root = pathlib.Path("skills")
+catalog = json.load(open("skills/catalog.json"))
+entries = catalog.get("skills", [])
+if not entries:
+    sys.exit("catalog.json has no skills")
+
+catalog_names = []
+for entry in entries:
+    name = entry.get("name")
+    path = pathlib.Path(entry.get("path", ""))
+    if not name or not path.is_dir() or not (path / "SKILL.md").is_file():
+        sys.exit(f"invalid catalog entry: {entry!r}")
+    catalog_names.append(name)
+
+dirs = sorted(p.name for p in root.iterdir() if p.is_dir() and (p / "SKILL.md").is_file())
+missing = set(dirs) - set(catalog_names)
+extra = set(catalog_names) - set(dirs)
+if missing:
+    sys.exit(f"skills missing from catalog.json: {sorted(missing)}")
+if extra:
+    sys.exit(f"catalog.json entries without SKILL.md dir: {sorted(extra)}")
+
+for entry in entries:
+    for dep in entry.get("dependencies", []):
+        if dep not in catalog_names:
+            sys.exit(f"{entry['name']}: unknown dependency {dep!r}")
+PY
+
 echo "==> Validate each skill (agentskills skills-ref)"
 shopt -s nullglob
 skill_dirs=(skills/*/)

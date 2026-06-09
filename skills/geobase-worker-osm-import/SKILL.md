@@ -1,12 +1,18 @@
 ---
 name: geobase-worker-osm-import
-description: "Use when creating and validating OSM import worker jobs in a Geobase project."
+description: "Create and validate OSM import worker jobs. Triggers on OpenStreetMap import, OSM extract, osm2pgsql-style load into project DB."
 metadata:
   author: geobase
-  version: "0.1.1"
+  version: "0.2.0"
 ---
 
 # Worker: OSM Import
+
+## When to use this skill
+
+- Import OpenStreetMap data into a Geobase project via worker job
+- Validate OSM import payload, region, or job status
+- **Not** for local file import (`@geobase-project-db-data-import`)
 
 ## Secrets (human in the loop)
 

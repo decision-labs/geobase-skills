@@ -1,15 +1,27 @@
 ---
 name: geobase
 description: >
-  Use for Geobase platform and project workflows: Studio/env setup during private
-  beta, and geobase-cli (when shipped) for auth, project discovery, endpoints, and
-  worker orchestration.
+  Start here for Geobase: private-beta Studio setup, project URL/anon key, secrets
+  workflow, control-plane vs project scope, model registry, and routing to focused
+  skills. Triggers on first-time Geobase use, geobase-cli (when shipped), project ref,
+  endpoints, worker orchestration, beta access.
 metadata:
   author: geobase
-  version: "0.2.1"
+  version: "0.2.2"
 ---
 
 # Geobase
+
+**Use this skill before any other `@geobase-*` skill** — it covers beta setup, secrets, scope, and which focused skill to load next.
+
+## When to use this skill
+
+- First-time Geobase setup or "how do I connect to my project?"
+- Private beta: need Studio URL, project ref, anon key, or secrets workflow
+- `geobase-cli` auth, `projects list`, `projects env`, endpoints (when CLI ships)
+- Unsure which skill handles embeddings, workers, maps, or import
+- Model registry lookup before SRAI/GeoAI worker jobs
+- Any task that might mix **Geobase platform** (control-plane) with **Geobase project** (data-plane)
 
 ## Install (Skills CLI)
 
@@ -49,6 +61,22 @@ npx skills add decision-labs/geobase-skills --list
 4. Run worker HTTP, PostgREST/RPC, tileserver, and `ogr2ogr` steps using those env vars directly.
 
 Sections below that reference `geobase-cli` describe the **target** workflow once the CLI is released. Prefer the beta steps above when the CLI is missing or fails with “command not found”.
+
+## Skill routing
+
+| User intent | Skill |
+| ----------- | ----- |
+| GeoEmbeddings overview / which step next | `@geobase-embeddings` |
+| Create embeddings tables | `@geobase-embeddings-create-via-workers` → `@geobase-worker-srai-embeddings` or `@geobase-worker-geoai-embeddings` |
+| Catalogue metadata (list, visibility, delete) | `@geobase-embeddings-catalogue-management` |
+| App RPC: similarity / change detection | `@geobase-embeddings-rpc-applications` |
+| Embeddings errors | `@geobase-embeddings-troubleshooting` |
+| Vector map from PostGIS table | `@geobase-tileserver` |
+| Raster COG / satellite on map | `@geobase-titiler` |
+| Import local files to project DB | `@geobase-project-db-data-import` |
+| OSM import job | `@geobase-worker-osm-import` |
+
+See [ARCHITECTURE.md](../../ARCHITECTURE.md) for layer definitions.
 
 ## Core Principles
 
@@ -188,6 +216,15 @@ These values are **never** something an agent or `geobase-cli` can supply on its
 5. Proceed only after the user confirms the files exist on disk.
 
 Add `.env.db`, `.env.secrets`, `.env.postgres.local`, and similar paths to `.gitignore` if not already present.
+
+## Always-on guidance
+
+- **Control-plane vs project:** platform login/org APIs ≠ project URL, anon key, worker, tileserver, or Postgres on `*.geobase.app`.
+- **Beta:** assume `geobase-cli` is missing; use Studio for non-secret project config.
+- **Secrets:** stop and ask for `.env.secrets` / `.env.db` — never paste `SERVICE_ROLE_KEY`, DB passwords, or full `DATABASE_URI` in chat.
+- **Create tables:** verify name format and collisions before worker jobs or imports.
+- **Verify outcomes:** job status, row counts, tile bytes, RPC rows — not just HTTP 200.
+- **Public docs only** in skill edits: `https://docs.geobase.app/...` — no private monorepo paths.
 
 ## Security Rules
 

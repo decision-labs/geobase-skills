@@ -1,12 +1,19 @@
 ---
 name: geobase-project-db-data-import
-description: "Use when importing local user data files (GeoParquet, GeoJSON, GPKG, Shapefile, CSV, Parquet) into a Geobase project database."
+description: "Import local geospatial files (GeoParquet, GeoJSON, GPKG, Shapefile, CSV, Parquet) into project Postgres via ogr2ogr. Triggers on data import, load shapefile, geoparquet ingest, ogr2ogr."
 metadata:
   author: geobase
-  version: "0.1.1"
+  version: "0.2.0"
 ---
 
 # Project DB: Local Data Import
+
+## When to use this skill
+
+- Load a **local file** into the Geobase project database
+- GeoParquet, GeoJSON, GPKG, Shapefile, CSV, Parquet → Postgres
+- Needs `DATABASE_URI` from user `.env.db` (human in the loop)
+- **Not** for OSM worker import (`@geobase-worker-osm-import`)
 
 ## Required Inputs
 

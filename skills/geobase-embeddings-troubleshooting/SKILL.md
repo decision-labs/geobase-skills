@@ -1,12 +1,19 @@
 ---
 name: geobase-embeddings-troubleshooting
-description: "Diagnose GeoEmbeddings failures across worker creation, catalogue metadata APIs, and application RPC calls."
+description: "Diagnose GeoEmbeddings failures across worker jobs, catalogue API, and RPC. Triggers on embeddings error, job failed, RPC 4xx, empty similarity results, catalogue mismatch."
 metadata:
   author: geobase
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # GeoEmbeddings Troubleshooting
+
+## When to use this skill
+
+- Worker job failed or stuck after create attempt
+- Catalogue API returns unexpected rows or auth errors
+- RPC returns empty results, wrong overload, or schema errors
+- User already tried create/RPC once and needs diagnosis (not first-time setup)
 
 ## Worker creation issues
 

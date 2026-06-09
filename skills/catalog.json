@@ -1,0 +1,95 @@
+{
+  "skills": [
+    {
+      "name": "geobase",
+      "layer": "platform",
+      "dependencies": [],
+      "description": "Start here for Geobase: private-beta Studio setup, project URL/anon key, secrets workflow, control-plane vs project scope, model registry, and routing to focused skills. Triggers on first-time Geobase use, geobase-cli (when shipped), project ref, endpoints, worker orchestration, beta access.",
+      "path": "skills/geobase"
+    },
+    {
+      "name": "geobase-embeddings",
+      "layer": "index",
+      "dependencies": ["geobase"],
+      "description": "GeoEmbeddings index — route embedding tasks by hierarchy: worker creation, catalogue metadata (RUD), application RPC, troubleshooting. Triggers on geoembeddings, embeddings table, similarity search entry point.",
+      "path": "skills/geobase-embeddings"
+    },
+    {
+      "name": "geobase-embeddings-management",
+      "layer": "index",
+      "dependencies": ["geobase-embeddings"],
+      "description": "GeoEmbeddings operations hierarchy overview: create via workers, catalogue RUD, RPC applications. Triggers when the user asks how GeoEmbeddings workflows fit together.",
+      "path": "skills/geobase-embeddings-management"
+    },
+    {
+      "name": "geobase-embeddings-create-via-workers",
+      "layer": "data",
+      "dependencies": ["geobase", "geobase-embeddings"],
+      "description": "Create GeoEmbeddings tables only through worker jobs (never ad-hoc RPC). Triggers on create embeddings, new embeddings table, SRAI/GeoAI pipeline setup before tables exist.",
+      "path": "skills/geobase-embeddings-create-via-workers"
+    },
+    {
+      "name": "geobase-embeddings-catalogue-management",
+      "layer": "data",
+      "dependencies": ["geobase", "geobase-embeddings"],
+      "description": "Manage GeoEmbeddings catalogue metadata via PostgREST: list, visibility, delete, count on embeddings_catalogue. Triggers on catalogue, table metadata, RUD, visibility, embeddings_catalogue.",
+      "path": "skills/geobase-embeddings-catalogue-management"
+    },
+    {
+      "name": "geobase-embeddings-rpc-applications",
+      "layer": "data",
+      "dependencies": ["geobase", "geobase-embeddings"],
+      "description": "Application RPC: similarity_search and change_detection with correct geoembeddings schema, auth, overloads. Triggers on similarity search, nearest neighbor, change detection, embedding query from app code.",
+      "path": "skills/geobase-embeddings-rpc-applications"
+    },
+    {
+      "name": "geobase-embeddings-troubleshooting",
+      "layer": "data",
+      "dependencies": ["geobase", "geobase-embeddings"],
+      "description": "Diagnose GeoEmbeddings failures across worker jobs, catalogue API, and RPC. Triggers on embeddings error, job failed, RPC 4xx, empty similarity results, catalogue mismatch.",
+      "path": "skills/geobase-embeddings-troubleshooting"
+    },
+    {
+      "name": "geobase-worker-srai-embeddings",
+      "layer": "data",
+      "dependencies": ["geobase", "geobase-embeddings-create-via-workers"],
+      "description": "Create and validate SRAI embeddings worker jobs (createSraiEmbeddings): pipeline payload, model registry, job polling. Triggers on SRAI, satellite imagery embeddings, remote sensing embeddings, createSraiEmbeddings.",
+      "path": "skills/geobase-worker-srai-embeddings"
+    },
+    {
+      "name": "geobase-worker-geoai-embeddings",
+      "layer": "data",
+      "dependencies": ["geobase", "geobase-embeddings-create-via-workers"],
+      "description": "Create and validate GeoAI embeddings worker jobs (createGeoEmbeddings): model selection, payload, job status. Triggers on GeoAI embeddings, createGeoEmbeddings, vision/geo model embeddings.",
+      "path": "skills/geobase-worker-geoai-embeddings"
+    },
+    {
+      "name": "geobase-worker-osm-import",
+      "layer": "data",
+      "dependencies": ["geobase"],
+      "description": "Create and validate OSM import worker jobs. Triggers on OpenStreetMap import, OSM extract, osm2pgsql-style load into project DB.",
+      "path": "skills/geobase-worker-osm-import"
+    },
+    {
+      "name": "geobase-tileserver",
+      "layer": "maps",
+      "dependencies": ["geobase"],
+      "description": "Vector MVT tiles from PostGIS tables via /tileserver/v1 and MapLibre GL JS: tile URLs, source-layer, filters, styling gotchas. Triggers on vector tiles, MapLibre, MVT, choropleth, geometry table map layer.",
+      "path": "skills/geobase-tileserver"
+    },
+    {
+      "name": "geobase-titiler",
+      "layer": "maps",
+      "dependencies": ["geobase"],
+      "description": "Raster COG tiles via /titiler/v1: satellite, DEM, multispectral, colormap, rescale, MapLibre raster overlay. Triggers on COG, GeoTIFF, raster tiles, Titiler, remote sensing imagery on map.",
+      "path": "skills/geobase-titiler"
+    },
+    {
+      "name": "geobase-project-db-data-import",
+      "layer": "data",
+      "dependencies": ["geobase"],
+      "description": "Import local geospatial files (GeoParquet, GeoJSON, GPKG, Shapefile, CSV, Parquet) into project Postgres via ogr2ogr. Triggers on data import, load shapefile, geoparquet ingest, ogr2ogr.",
+      "path": "skills/geobase-project-db-data-import"
+    }
+  ]
+}

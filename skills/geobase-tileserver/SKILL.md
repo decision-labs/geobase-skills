@@ -1,12 +1,18 @@
 ---
 name: geobase-tileserver
-description: "Use when building frontend map visualisations with the Geobase vector tile server and MapLibre GL JS."
+description: "Vector MVT tiles from PostGIS tables via /tileserver/v1 and MapLibre GL JS: tile URLs, source-layer, filters, styling gotchas. Triggers on vector tiles, MapLibre, MVT, choropleth, geometry table map layer."
 metadata:
   author: geobase
-  version: "0.2.2"
+  version: "0.3.0"
 ---
 
 # Tileserver: Frontend Map Visualisation
+
+## When to use this skill
+
+- Map a **PostGIS table** with a geometry column (vector MVT)
+- MapLibre `vector` source/layer, filters, choropleth styling
+- **Not** for raster COG imagery — use `@geobase-titiler`
 
 ## Required Inputs
 
