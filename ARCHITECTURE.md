@@ -1,17 +1,24 @@
 # Architecture
 
-Agent skills catalog for Geobase. Skills are self-contained playbooks (no private monorepo links). Layer metadata lives in [`skills/catalog.json`](skills/catalog.json), not SKILL.md frontmatter, so the same skill file works across harnesses.
+Agent skills catalog for Geobase. Skills are self-contained playbooks (no private monorepo links). Catalog metadata lives in [`skills/catalog.json`](skills/catalog.json), not SKILL.md frontmatter.
 
-## Layers
+## Areas (matches README)
 
-| Layer | Purpose | Skills |
-| ----- | ------- | ------ |
+`area` values align with the [README skill catalog](README.md#skill-catalog):
+
+| Area | Purpose | Skills |
+| ---- | ------- | ------ |
 | **platform** | Umbrella: beta setup, secrets, scope, routing | `@geobase` |
-| **index** | Route to the right data/maps skill | `@geobase-embeddings`, `@geobase-embeddings-management` |
-| **data** | GeoEmbeddings, workers, DB import | `@geobase-embeddings-*` (except index), `@geobase-worker-*`, `@geobase-project-db-data-import` |
+| **geoembeddings** | Embeddings lifecycle: index → create → catalogue → RPC → troubleshoot | `@geobase-embeddings*` |
+| **workers** | Background worker jobs (embeddings pipelines, OSM) | `@geobase-worker-*` |
 | **maps** | Vector MVT and raster COG visualization | `@geobase-tileserver`, `@geobase-titiler` |
+| **data** | Local file import into project Postgres | `@geobase-project-db-data-import` |
 
-Dependency direction: platform → index → data/maps. Cross-refs use `@skill-name` in prose; `catalog.json` `dependencies` documents the intended order for contributors.
+Within **geoembeddings**, two skills are routing hubs (`role: "index"` in catalog): `@geobase-embeddings` and `@geobase-embeddings-management`. Load those when the task type is unclear; otherwise use the focused skill.
+
+## Dependencies
+
+`dependencies` in `catalog.json` documents suggested load order (e.g. workers after `@geobase-embeddings-create-via-workers`). Cross-refs in SKILL.md use `@skill-name`.
 
 ## Skill anatomy
 
@@ -20,31 +27,6 @@ skills/<skill-name>/
   SKILL.md          # frontmatter + guidance (keep focused; split if > ~5KB)
   references/       # optional deep-dives (future)
 ```
-
-Frontmatter:
-
-```yaml
----
-name: geobase-tileserver
-description: One sentence with trigger keywords for agent routing.
-metadata:
-  author: geobase
-  version: "0.2.0"
----
-```
-
-Body conventions (inspired by [CARTO Agent Skills](https://github.com/CartoDB/agent-skills)):
-
-1. **When to use this skill** — bulleted triggers
-2. **Required inputs** / quick reference
-3. **Procedures** — commands, URLs, code
-4. **Known gotchas** / **Failure handling**
-5. **Always-on guidance** — invariants (especially in `@geobase`)
-6. **Related skills** — `@geobase-*` cross-refs
-
-## Beta vs CLI
-
-During **private beta**, `@geobase` is the source of truth for Studio-first workflows. `geobase-cli` sections describe the target workflow once the CLI ships. Do not assume CLI is on `PATH`.
 
 ## Validation
 

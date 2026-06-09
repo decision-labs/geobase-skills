@@ -22,10 +22,32 @@ entries = catalog.get("skills", [])
 if not entries:
     sys.exit("catalog.json has no skills")
 
+ALLOWED_AREAS = {"platform", "geoembeddings", "workers", "maps", "data"}
+
 catalog_names = []
 for entry in entries:
     name = entry.get("name")
     path = pathlib.Path(entry.get("path", ""))
+    area = entry.get("area")
+    if "layer" in entry:
+        sys.exit(f"{name}: use 'area' not 'layer' in catalog.json")
+    if area not in ALLOWED_AREAS:
+        sys.exit(f"{name}: invalid or missing area {area!r}")
+    role = entry.get("role")
+    if role == "index" and area != "geoembeddings":
+        sys.exit(f"{name}: role index only allowed for geoembeddings area")
+    if role and role != "index":
+        sys.exit(f"{name}: unknown role {role!r}")
+    if area == "platform" and name != "geobase":
+        sys.exit(f"{name}: platform area is only for geobase")
+    if area == "workers" and not name.startswith("geobase-worker-"):
+        sys.exit(f"{name}: workers area skills must be named geobase-worker-*")
+    if area == "maps" and name not in {"geobase-tileserver", "geobase-titiler"}:
+        sys.exit(f"{name}: maps area skills must be tileserver or titiler")
+    if area == "data" and name != "geobase-project-db-data-import":
+        sys.exit(f"{name}: data area is only for geobase-project-db-data-import")
+    if area == "geoembeddings" and not name.startswith("geobase-embeddings"):
+        sys.exit(f"{name}: geoembeddings area skills must be named geobase-embeddings*")
     if not name or not path.is_dir() or not (path / "SKILL.md").is_file():
         sys.exit(f"invalid catalog entry: {entry!r}")
     catalog_names.append(name)

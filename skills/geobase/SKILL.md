@@ -76,7 +76,7 @@ Sections below that reference `geobase-cli` describe the **target** workflow onc
 | Import local files to project DB | `@geobase-project-db-data-import` |
 | OSM import job | `@geobase-worker-osm-import` |
 
-See [ARCHITECTURE.md](../../ARCHITECTURE.md) for layer definitions.
+See [ARCHITECTURE.md](../../ARCHITECTURE.md) for catalog areas (matches README table).
 
 ## Core Principles
 

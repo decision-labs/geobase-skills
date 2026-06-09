@@ -1,15 +1,20 @@
 # Authoring a new skill
 
-## 1. Pick a name and layer
+## 1. Pick a name and area
 
 Naming: `geobase-<domain>-<verb-or-noun>` (lowercase, hyphens). The name must match the directory under `skills/`.
 
-Layers (see [ARCHITECTURE.md](../ARCHITECTURE.md)):
+**Areas** (must match [README](../README.md#skill-catalog)):
 
-- **platform** — only `@geobase`
-- **index** — routing hubs for a domain
-- **data** — embeddings, workers, import
-- **maps** — tileserver, titiler
+| `area` | When to use |
+| ------ | ----------- |
+| `platform` | Only `@geobase` |
+| `geoembeddings` | Anything under GeoEmbeddings in the README |
+| `workers` | `geobase-worker-*` job skills |
+| `maps` | tileserver, titiler |
+| `data` | project DB file import |
+
+Optional `role: "index"` — only for GeoEmbeddings routing hubs (`@geobase-embeddings`, `@geobase-embeddings-management`).
 
 ## 2. Add a catalog entry
 
@@ -18,7 +23,7 @@ Edit [`skills/catalog.json`](../skills/catalog.json):
 ```json
 {
   "name": "geobase-my-skill",
-  "layer": "data",
+  "area": "workers",
   "dependencies": ["geobase"],
   "description": "One sentence with trigger keywords — when should an agent load this skill?",
   "path": "skills/geobase-my-skill"
@@ -66,6 +71,7 @@ bash scripts/smoke-test.sh
 ## PR review focus
 
 - Description includes clear **when** triggers
+- `area` matches README grouping
 - Beta / CLI-not-shipped callouts where relevant
 - Cross-refs resolve (`@geobase-*` exists)
 - `catalog.json` entry matches directory and frontmatter `name`
