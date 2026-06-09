@@ -30,7 +30,7 @@ skills/<skill-name>/
 
 ## Validation
 
-- `scripts/smoke-test.sh` — `plugin.json`, `skills-ref validate`, frontmatter names, `catalog.json` sync, `@geobase-*` refs, no legacy private paths
+- `bash scripts/smoke-test.sh` — `plugin.json`, `scripts/validate_catalog.py`, `skills-ref validate` per skill
 - CI: `.github/workflows/smoke.yml`
 
 ## Adding a skill

@@ -115,7 +115,7 @@ Edit skills in **this repository** only. Install via `npx skills add decision-la
 bash scripts/smoke-test.sh
 ```
 
-Checks: valid `plugin.json`, [agentskills `skills-ref`](https://github.com/agentskills/agentskills/tree/main/skills-ref) validation for every skill, frontmatter `name` matches directory, no legacy `.md` cross-links or private monorepo paths, and `@geobase-*` references resolve to installed skills. CI runs the same script on pull requests (`.github/workflows/smoke.yml`).
+Checks: valid `plugin.json`, catalog/frontmatter/cross-refs (`scripts/validate_catalog.py`), and [agentskills `skills-ref`](https://github.com/agentskills/agentskills/tree/main/skills-ref) per skill. CI runs `bash scripts/smoke-test.sh` on pull requests (`.github/workflows/smoke.yml`).
 
 ## License
 
