@@ -12,7 +12,7 @@ metadata:
 
 - Load a **local file** into the Geobase project database
 - GeoParquet, GeoJSON, GPKG, Shapefile, CSV, Parquet → Postgres
-- Needs `DATABASE_URI` from user `.env.db` (human in the loop)
+- Needs `DATABASE_URI` in the user's local environment (human in the loop — e.g. gitignored `.env.db`, direnv, or exported shell vars; not in chat)
 - **Not** for OSM worker import (`@geobase-worker-osm-import`)
 
 ## Required Inputs
@@ -30,8 +30,8 @@ metadata:
 Before import:
 
 1. Run `geobase-cli projects env <project-ref> --persona postgres --format dotenv` for host, port, database, user (non-secret).
-2. **Ask the user** to create a gitignored **`.env.db`** with the real password and a complete `DATABASE_URI` / `GEOBASE_DATABASE_URI` (replace `[PASSWORD]` / `<db-password>`).
-3. User loads it locally; do **not** ask them to paste the password or URI in chat.
+2. **Ask the user** to set the real DB password and a complete `DATABASE_URI` / `GEOBASE_DATABASE_URI` locally (replace `[PASSWORD]` / `<db-password>`). Common patterns: gitignored **`.env.db`**, direnv, or exporting vars in the shell — whatever they already use.
+3. User loads secrets in their environment; do **not** ask them to paste the password or URI in chat.
 
 See `@geobase` → **Secrets (human in the loop)**.
 
@@ -46,9 +46,9 @@ For non-geospatial tabular files, use `COPY`/`\copy` or Python loaders.
    - `geobase-cli whoami`
    - `geobase-cli projects refs`
    - `geobase-cli projects env <project-ref> --persona postgres --format dotenv`
-2. Source DB credentials from the user's **`.env.db`** (after they create it):
+2. Source DB credentials from the user's **local environment** (after they configure it):
    - non-secret fields may come from `projects env`: `GEOBASE_PGHOST`, `GEOBASE_PGPORT`, `GEOBASE_PGDATABASE`, `GEOBASE_PGUSER`
-   - password and `DATABASE_URI` / `GEOBASE_DATABASE_URI` must come from `.env.db` only — never from CLI output or chat
+   - password and `DATABASE_URI` / `GEOBASE_DATABASE_URI` must come from the user's side only — never from CLI placeholders or chat
 3. Validate target table name:
    - keep it short;
    - use letters/digits/underscores only;

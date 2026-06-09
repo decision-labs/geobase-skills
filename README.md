@@ -107,7 +107,7 @@ Edit skills in **this repository** only. Install via `npx skills add decision-la
 - **Beta:** Geobase Studio access and a **Geobase project** (URL, ref, anon key from project settings). No public `geobase-cli` install yet.
 - **Later:** `geobase-cli` for platform login and `projects env` (documented in skills; not required during private beta).
 - Do **not** commit platform or project secrets into skill files.
-- **`DATABASE_URI`** and **`SERVICE_ROLE_KEY`** are not available to agents without a **human in the loop**. Users must place real values in local gitignored files (for example `.env.db`, `.env.secrets`). See `@geobase` → **Secrets (human in the loop)**.
+- **`DATABASE_URI`** and **`SERVICE_ROLE_KEY`** are not available to agents without a **human in the loop**. Users must set real values in their local environment (for example gitignored `.env.db` / `.env.secrets`, direnv, or shell exports). See `@geobase` → **Secrets (human in the loop)**.
 
 ## Smoke tests
 
