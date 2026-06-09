@@ -1,12 +1,18 @@
 ---
 name: geobase-embeddings-rpc-applications
-description: "Use for application-facing GeoEmbeddings RPC calls (`similarity_search`, `change_detection`) with correct schema, auth, and overload parameters."
+description: "Application RPC: similarity_search and change_detection with geoembeddings schema, auth, overloads. Triggers on similarity search, nearest neighbor, change detection, embedding query from app code."
 metadata:
   author: geobase
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Applications: RPC API (Similarity + Change Detection)
+
+## When to use this skill
+
+- Build app code calling `similarity_search` or `change_detection`
+- Choose the correct RPC overload and parameters
+- Embeddings tables **already exist** (creation is `@geobase-embeddings-create-via-workers`)
 
 Use GeoEmbeddings RPC for embedding-native analysis after embeddings tables exist.
 

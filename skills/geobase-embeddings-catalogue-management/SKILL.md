@@ -1,12 +1,18 @@
 ---
 name: geobase-embeddings-catalogue-management
-description: "Use for GeoEmbeddings table metadata management through the catalogue API: list, update visibility, delete, and count."
+description: "Manage GeoEmbeddings catalogue metadata via PostgREST: list, visibility, delete, count on embeddings_catalogue. Triggers on catalogue, table metadata, RUD, visibility, embeddings_catalogue."
 metadata:
   author: geobase
-  version: "0.1.1"
+  version: "0.2.0"
 ---
 
 # Catalogue API (RUD Metadata Management)
+
+## When to use this skill
+
+- List or count embeddings tables in the catalogue
+- Change visibility, update metadata, or delete catalogue entries
+- **Not** for creating embedding vectors (use workers) or similarity queries (use RPC)
 
 Use the **Geobase project** PostgREST API (`geoembeddings` schema) to inspect and manage `embeddings_catalogue` metadata on `GEOBASE_PROJECT_URL` — not the Studio host or `/api/projects/...` routes.
 

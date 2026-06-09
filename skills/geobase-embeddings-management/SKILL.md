@@ -1,12 +1,18 @@
 ---
 name: geobase-embeddings-management
-description: "Use for GeoEmbeddings operations hierarchy: create embeddings via worker jobs, manage table metadata via catalogue API (RUD), and run application RPC APIs (`similarity_search`, `change_detection`)."
+description: "GeoEmbeddings operations hierarchy: workers for creation, catalogue for RUD metadata, RPC for similarity_search and change_detection. Triggers when the user asks how GeoEmbeddings workflows fit together."
 metadata:
   author: geobase
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
 # GeoEmbeddings Operations Hierarchy
+
+## When to use this skill
+
+- Explain the three GeoEmbeddings surfaces (workers, catalogue, RPC)
+- User conflates creating embeddings with querying them
+- Onboarding before diving into a specific worker or RPC skill
 
 Follow this hierarchy:
 

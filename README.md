@@ -80,17 +80,21 @@ Bundle page: **https://skills.sh/decision-labs/geobase-skills**
 
 Skills cross-reference each other with `@skill-name` (for example `@geobase` → `@geobase-worker-srai-embeddings`).
 
+Authoritative catalog (`area`, dependencies, routing descriptions): [`skills/catalog.json`](skills/catalog.json). See [ARCHITECTURE.md](ARCHITECTURE.md) and [docs/skill-authoring.md](docs/skill-authoring.md).
+
 ## Layout
 
 Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown):
 
 ```
 skills/
+  catalog.json
   geobase/SKILL.md
   geobase-tileserver/SKILL.md
   geobase-titiler/SKILL.md
-  geobase-worker-srai-embeddings/SKILL.md
   ...
+ARCHITECTURE.md
+docs/skill-authoring.md
 plugin.json
 ```
 
@@ -103,7 +107,7 @@ Edit skills in **this repository** only. Install via `npx skills add decision-la
 - **Beta:** Geobase Studio access and a **Geobase project** (URL, ref, anon key from project settings). No public `geobase-cli` install yet.
 - **Later:** `geobase-cli` for platform login and `projects env` (documented in skills; not required during private beta).
 - Do **not** commit platform or project secrets into skill files.
-- **`DATABASE_URI`** and **`SERVICE_ROLE_KEY`** are not available to agents without a **human in the loop**. Users must place real values in local gitignored files (for example `.env.db`, `.env.secrets`). See `@geobase` → **Secrets (human in the loop)**.
+- **`DATABASE_URI`** and **`SERVICE_ROLE_KEY`** are not available to agents without a **human in the loop**. Users must set real values in their local environment (for example gitignored `.env.db` / `.env.secrets`, direnv, or shell exports). See `@geobase` → **Secrets (human in the loop)**.
 
 ## Smoke tests
 
@@ -111,7 +115,7 @@ Edit skills in **this repository** only. Install via `npx skills add decision-la
 bash scripts/smoke-test.sh
 ```
 
-Checks: valid `plugin.json`, [agentskills `skills-ref`](https://github.com/agentskills/agentskills/tree/main/skills-ref) validation for every skill, frontmatter `name` matches directory, no legacy `.md` cross-links or private monorepo paths, and `@geobase-*` references resolve to installed skills. CI runs the same script on pull requests (`.github/workflows/smoke.yml`).
+Checks: valid `plugin.json`, catalog/frontmatter/cross-refs (`scripts/validate_catalog.py`), and [agentskills `skills-ref`](https://github.com/agentskills/agentskills/tree/main/skills-ref) per skill. CI runs `bash scripts/smoke-test.sh` on pull requests (`.github/workflows/smoke.yml`).
 
 ## License
 

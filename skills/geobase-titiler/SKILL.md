@@ -1,14 +1,21 @@
 ---
 name: geobase-titiler
-description: "Use when serving Cloud Optimized GeoTIFF (COG) raster tiles, metadata, and MapLibre raster overlays via Geobase Titiler."
+description: "Raster COG tiles via /titiler/v1: satellite, DEM, multispectral, colormap, rescale, MapLibre raster overlay. Triggers on COG, GeoTIFF, raster tiles, Titiler, remote sensing imagery on map."
 metadata:
   author: geobase
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Titiler: Raster COG Tiles
 
-Geobase hosts [Titiler](https://developmentseed.org/titiler/) at `{origin}/titiler/v1` for dynamic COG tiles (satellite imagery, DEMs, multispectral rasters). Use **`@geobase-tileserver`** for PostGIS vector MVT tiles — not Titiler.
+## When to use this skill
+
+- Display **Cloud Optimized GeoTIFF** (COG) raster on a map
+- Satellite, DEM, multispectral imagery via `/titiler/v1`
+- MapLibre `raster` source (not vector MVT)
+- **Not** for PostGIS geometry tables — use `@geobase-tileserver`
+
+Geobase hosts [Titiler](https://developmentseed.org/titiler/) at `{origin}/titiler/v1` for dynamic COG tiles (satellite imagery, DEMs, multispectral rasters).
 
 See `@geobase` → **Private beta (CLI not shipped)** for project URL and anon key during beta.
 

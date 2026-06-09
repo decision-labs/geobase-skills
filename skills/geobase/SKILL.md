@@ -1,15 +1,27 @@
 ---
 name: geobase
 description: >
-  Use for Geobase platform and project workflows: Studio/env setup during private
-  beta, and geobase-cli (when shipped) for auth, project discovery, endpoints, and
-  worker orchestration.
+  Start here for Geobase: private-beta Studio setup, project URL/anon key, secrets
+  workflow, control-plane vs project scope, model registry, and routing to focused
+  skills. Triggers on first-time Geobase use, geobase-cli (when shipped), project ref,
+  endpoints, worker orchestration, beta access.
 metadata:
   author: geobase
-  version: "0.2.1"
+  version: "0.2.2"
 ---
 
 # Geobase
+
+**Use this skill before any other `@geobase-*` skill** — it covers beta setup, secrets, scope, and which focused skill to load next.
+
+## When to use this skill
+
+- First-time Geobase setup or "how do I connect to my project?"
+- Private beta: need Studio URL, project ref, anon key, or secrets workflow
+- `geobase-cli` auth, `projects list`, `projects env`, endpoints (when CLI ships)
+- Unsure which skill handles embeddings, workers, maps, or import
+- Model registry lookup before SRAI/GeoAI worker jobs
+- Any task that might mix **Geobase platform** (control-plane) with **Geobase project** (data-plane)
 
 ## Install (Skills CLI)
 
@@ -45,10 +57,26 @@ npx skills add decision-labs/geobase-skills --list
    - `GEOBASE_PROJECT_URL` (or project API base URL, e.g. `https://<ref>.geobase.app`)
    - `GEOBASE_ANON_KEY`
    - `GEOBASE_PROJECT_REF` (or equivalent ref used in worker URLs)
-3. For worker jobs, DB import, or catalogue mutations: follow **Secrets (human in the loop)** — user supplies `.env.secrets` / `.env.db` locally; never request pasted keys in chat.
+3. For worker jobs, DB import, or catalogue mutations: follow **Secrets (human in the loop)** — user supplies secrets in their local environment (e.g. `.env.secrets`, `.env.db`, direnv); never request pasted keys in chat.
 4. Run worker HTTP, PostgREST/RPC, tileserver, and `ogr2ogr` steps using those env vars directly.
 
 Sections below that reference `geobase-cli` describe the **target** workflow once the CLI is released. Prefer the beta steps above when the CLI is missing or fails with “command not found”.
+
+## Skill routing
+
+| User intent | Skill |
+| ----------- | ----- |
+| GeoEmbeddings overview / which step next | `@geobase-embeddings` |
+| Create embeddings tables | `@geobase-embeddings-create-via-workers` → `@geobase-worker-srai-embeddings` or `@geobase-worker-geoai-embeddings` |
+| Catalogue metadata (list, visibility, delete) | `@geobase-embeddings-catalogue-management` |
+| App RPC: similarity / change detection | `@geobase-embeddings-rpc-applications` |
+| Embeddings errors | `@geobase-embeddings-troubleshooting` |
+| Vector map from PostGIS table | `@geobase-tileserver` |
+| Raster COG / satellite on map | `@geobase-titiler` |
+| Import local files to project DB | `@geobase-project-db-data-import` |
+| OSM import job | `@geobase-worker-osm-import` |
+
+See [ARCHITECTURE.md](../../ARCHITECTURE.md) for catalog areas (matches README table).
 
 ## Core Principles
 
@@ -107,7 +135,7 @@ Before any model-based workflow (GeoAI/SRAI):
 
 1. Confirm `project_ref` and Studio access with the user.
 2. Use Studio / project settings for `GEOBASE_PROJECT_URL`, `GEOBASE_ANON_KEY`, and service URLs.
-3. Load secrets from user-local `.env.secrets` / `.env.db` after **Secrets (human in the loop)** — do not use chat for passwords or service-role keys.
+3. Load secrets from the user's local environment after **Secrets (human in the loop)** — do not use chat for passwords or service-role keys.
 4. Verify outcomes on the project (worker job status, RPC responses, tile URLs, import row counts).
 
 ### When `geobase-cli` is available
@@ -183,11 +211,20 @@ These values are **never** something an agent or `geobase-cli` can supply on its
 
 1. Collect **non-secret** host, ref, anon key, URLs from Studio / project settings, or (when shipped) `geobase-cli projects env <ref> --persona …`.
 2. **Stop** before `psql`, `ogr2ogr`, worker job HTTP calls, or any privileged API use.
-3. Ask the user to create `.env.db` and/or `.env.secrets` with real `DATABASE_URI` and `SERVICE_ROLE_KEY` (and related `GEOBASE_*` aliases if they prefer).
-4. User loads files locally (example: `set -a && source .env.secrets && source .env.db && set +a`). The agent must **not** ask the user to paste secret values into chat.
-5. Proceed only after the user confirms the files exist on disk.
+3. Ask the user to set real `DATABASE_URI` and `SERVICE_ROLE_KEY` locally (and related `GEOBASE_*` aliases if they prefer). Examples: gitignored `.env.db` / `.env.secrets`, direnv, or shell exports — their choice.
+4. User loads secrets in their environment (example: `set -a && source .env.secrets && source .env.db && set +a`). The agent must **not** ask the user to paste secret values into chat.
+5. Proceed only after the user confirms secrets are available locally (not necessarily specific filenames).
 
 Add `.env.db`, `.env.secrets`, `.env.postgres.local`, and similar paths to `.gitignore` if not already present.
+
+## Always-on guidance
+
+- **Control-plane vs project:** platform login/org APIs ≠ project URL, anon key, worker, tileserver, or Postgres on `*.geobase.app`.
+- **Beta:** assume `geobase-cli` is missing; use Studio for non-secret project config.
+- **Secrets:** stop and ask the user to configure secrets locally — never paste `SERVICE_ROLE_KEY`, DB passwords, or full `DATABASE_URI` in chat.
+- **Create tables:** verify name format and collisions before worker jobs or imports.
+- **Verify outcomes:** job status, row counts, tile bytes, RPC rows — not just HTTP 200.
+- **Public docs only** in skill edits: `https://docs.geobase.app/...` — no private monorepo paths.
 
 ## Security Rules
 

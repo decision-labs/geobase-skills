@@ -1,12 +1,18 @@
 ---
 name: geobase-worker-geoai-embeddings
-description: "Use when creating and validating GeoAI embeddings worker jobs (`createGeoEmbeddings`) for a Geobase project."
+description: "Create and validate GeoAI embeddings worker jobs (createGeoEmbeddings): model selection, payload, job status. Triggers on GeoAI embeddings, createGeoEmbeddings, vision/geo model embeddings."
 metadata:
   author: geobase
-  version: "0.1.1"
+  version: "0.2.0"
 ---
 
 # Worker: GeoAI Embeddings
+
+## When to use this skill
+
+- Submit or debug a `createGeoEmbeddings` worker job
+- GeoAI / vision model embeddings for geospatial imagery
+- After `@geobase-embeddings-create-via-workers` routing confirms worker-first creation
 
 ## Secrets (human in the loop)
 

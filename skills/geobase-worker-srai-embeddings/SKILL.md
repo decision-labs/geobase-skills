@@ -1,12 +1,18 @@
 ---
 name: geobase-worker-srai-embeddings
-description: "Use when creating and validating SRAI embeddings worker jobs (`createSraiEmbeddings`) for a Geobase project."
+description: "Create and validate SRAI embeddings worker jobs (createSraiEmbeddings): pipeline payload, model registry, job polling. Triggers on SRAI, satellite imagery embeddings, remote sensing embeddings, createSraiEmbeddings."
 metadata:
   author: geobase
-  version: "0.1.1"
+  version: "0.2.0"
 ---
 
 # Worker: SRAI Embeddings
+
+## When to use this skill
+
+- Submit or debug a `createSraiEmbeddings` worker job
+- SRAI / satellite / remote-sensing embedding pipeline for a project
+- After `@geobase-embeddings-create-via-workers` routing confirms worker-first creation
 
 ## Secrets (human in the loop)
 
