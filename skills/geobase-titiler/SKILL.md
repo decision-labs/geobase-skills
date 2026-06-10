@@ -3,7 +3,7 @@ name: geobase-titiler
 description: "Raster COG tiles via /titiler/v1: satellite, DEM, multispectral, colormap, rescale, MapLibre raster overlay. Triggers on COG, GeoTIFF, raster tiles, Titiler, remote sensing imagery on map."
 metadata:
   author: geobase
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # Titiler: Raster COG Tiles
@@ -15,7 +15,7 @@ metadata:
 - MapLibre `raster` source (not vector MVT)
 - **Not** for PostGIS geometry tables — use `@geobase-tileserver`
 
-Geobase hosts [Titiler](https://developmentseed.org/titiler/) at `{origin}/titiler/v1` for dynamic COG tiles (satellite imagery, DEMs, multispectral rasters).
+Geobase hosts [Titiler](https://developmentseed.org/titiler/) **2.x** (currently `2.0.4` on staging) at `{origin}/titiler/v1` for dynamic COG tiles (satellite imagery, DEMs, multispectral rasters).
 
 See `@geobase` → **Private beta (CLI not shipped)** for project URL and anon key during beta.
 
@@ -58,13 +58,17 @@ For private COGs or stricter policies, prefer server-side proxying so secrets an
 curl "${API_URL}/titiler/v1/cog/info?url=${ENCODED_COG_URL}&apikey=${ANON_KEY}"
 ```
 
+Returns band metadata and `bounds` in the COG's **native CRS** (not always WGS84). Prefer `tilejson.json` below for MapLibre map framing.
+
 ### Extent (for map `bounds`)
 
+**TiTiler 2.x removed `/cog/bounds`.** Use TileJSON for WGS84 bounds MapLibre expects:
+
 ```bash
-curl "${API_URL}/titiler/v1/cog/bounds?url=${ENCODED_COG_URL}&apikey=${ANON_KEY}"
+curl "${API_URL}/titiler/v1/cog/WebMercatorQuad/tilejson.json?url=${ENCODED_COG_URL}&apikey=${ANON_KEY}"
 ```
 
-Returns JSON with `bounds` `[west, south, east, north]` in WGS84.
+Returns JSON with `bounds` `[west, south, east, north]` in WGS84, plus `minzoom`, `maxzoom`, and a `tiles` URL template.
 
 ### Band statistics (styling hints)
 
@@ -102,7 +106,7 @@ Comma-separated `bidx` in UI (e.g. `1,2,3`) becomes multiple `bidx=` query param
 
 ## MapLibre GL JS (raster overlay)
 
-1. Fetch bounds and initialize the map to the COG extent.
+1. Fetch **tilejson** and initialize the map to the COG extent (WGS84 bounds).
 2. Add a **raster** source (not vector) pointing at the tile template.
 
 ```js
@@ -111,10 +115,11 @@ const ANON_KEY = "<anon_key>";
 const cogUrl = "https://example.com/path/to/file.tif";
 const encoded = encodeURIComponent(cogUrl);
 
-const boundsRes = await fetch(
-  `${API_URL}/titiler/v1/cog/bounds?url=${encoded}&apikey=${ANON_KEY}`
+const tilejsonRes = await fetch(
+  `${API_URL}/titiler/v1/cog/WebMercatorQuad/tilejson.json?url=${encoded}&apikey=${ANON_KEY}`
 );
-const { bounds } = await boundsRes.json();
+const tilejson = await tilejsonRes.json();
+const { bounds, minzoom, maxzoom } = tilejson;
 
 const map = new maplibregl.Map({
   container: "map",
@@ -137,8 +142,8 @@ map.on("load", () => {
     id: "cog",
     type: "raster",
     source: "cog",
-    minzoom: 0,
-    maxzoom: 22,
+    minzoom: minzoom ?? 0,
+    maxzoom: maxzoom ?? 22,
   });
 });
 ```
@@ -160,23 +165,28 @@ The COG URL must be percent-encoded in query strings. A raw `https://...` in the
 
 ### 2. Titiler must reach the COG
 
-Geobase Titiler fetches the COG from the URL you pass. If the asset is private S3 without a reachable signed URL, tiles fail even with a valid `apikey`. Confirm with `cog/info` or `cog/bounds` first.
+Geobase Titiler fetches the COG from the URL you pass. If the asset is private S3 without a reachable signed URL, tiles fail even with a valid `apikey`. Confirm with `cog/info` or `cog/WebMercatorQuad/tilejson.json` first.
 
-### 3. Wrong service for table geometry
+### 3. `/cog/bounds` removed in TiTiler 2.x
+
+Do **not** call `/cog/bounds` — it returns 404 on Geobase stacks pinned to Titiler 2.0.4+. Use `tilejson.json` for WGS84 map bounds. `/cog/info` still works but its `bounds` are in the COG native CRS.
+
+### 4. Wrong service for table geometry
 
 Tables with geometry columns use **vector** tileserver (`/tileserver/v1/...pbf`), not Titiler. Use this skill only for external or hosted **raster** COGs.
 
-### 4. `rescale` / bands mismatch
+### 5. `rescale` / bands mismatch
 
 Multiband COGs need correct `bidx` and `rescale` ranges; use `cog/statistics` before guessing display limits.
 
-### 5. Vector vs raster in MapLibre
+### 6. Vector vs raster in MapLibre
 
 Titiler layers use `type: "raster"`. Tileserver layers use `type: "vector"` and require `source-layer` — see `@geobase-tileserver`.
 
 ## Failure Handling
 
-- **Blank map / 4xx on bounds** — verify `COG_URL`, encoding, and that Titiler can HTTP-read the file.
+- **Blank map / 404 on bounds** — you may be calling removed `/cog/bounds`; switch to `cog/WebMercatorQuad/tilejson.json`.
+- **Blank map / 4xx on tilejson** — verify `COG_URL`, encoding, and that Titiler can HTTP-read the file.
 - **Tiles 200 but empty or wrong colors** — adjust `rescale`, `bidx`, `colormap_name`, or `expression`; inspect `cog/statistics`.
 - **Auth errors** — confirm `apikey` matches project anon key from Studio settings.
 - After 2–3 failed attempts, stop looping; have the user validate the COG in Studio Titiler preview or curl `cog/info`.
